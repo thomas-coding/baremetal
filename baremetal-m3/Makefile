@@ -51,7 +51,7 @@ $(BIN_DIR)/$(ELF) : $(OBJ_DIRS) $(BIN_DIR) $(OBJ_FILES)
 	$(LINKER)  $(LDFLAGS) -o $@ $(OBJ_FILES)
 	$(DUMP) -xD $@ > $(BIN_DIR)/$(Target).asm
 	$(OBJCOPY) -O binary  $@  $(BIN_DIR)/$(Target).bin
-	hexdump -e '16/1 "%02X" "\n"' -v  $(BIN_DIR)/$(Target).bin >  $(BIN_DIR)/$(Target).hex
+	xxd $(BIN_DIR)/$(Target).bin > $(BIN_DIR)/$(Target).hex
 	@echo "Linking complete!"
 
 # Compile .c to .o
