@@ -6,10 +6,10 @@
 Welcome to Baremetal's documentation!
 =====================================
 
-目的是学习 arm cpu 硬件相关知识以及qemu相关知识，计划如下：
-1、写一个 Cortex-M3 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）
-2、写一个 QEMU 的 platform（自己搭一个虚拟板子）， 跑 Cortex-M3 的 baremetal code
-3、学习其他core及外设，完善自己的 qemu platform
+| 目的是学习 arm cpu 硬件相关知识以及qemu相关知识，计划如下：
+| 1、写一个 Cortex-M3 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）
+| 2、写一个 QEMU 的 platform（自己搭一个虚拟板子）， 跑 Cortex-M3 的 baremetal code
+| 3、学习其他core及外设，完善自己的 qemu platform
 
 一入QEMU深似海，预期第二个任务会比较难
 
@@ -19,9 +19,4 @@ Welcome to Baremetal's documentation!
 
    baremetal-m3/index.rst
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

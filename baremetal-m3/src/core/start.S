@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2008, Jinping Wu. All rights reserved.
+ * Copyright (c) 2021-2031, Jinping Wu. All rights reserved.
  *
  * SPDX-License-Identifier: MIT
  */
@@ -11,6 +11,7 @@ __Vectors:
 	.long		0x22222222		
 
 	.thumb_func
+	.globl   Reset_Handler
 Reset_Handler:
 	mov		r0, #1
 	mov		r1, #2

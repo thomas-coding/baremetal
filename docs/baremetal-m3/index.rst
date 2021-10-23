@@ -1,11 +1,12 @@
-Baremetal M33
+Baremetal M3
 =====================================
 
 参考资料：
-   MPS2 平台：
-   https://developer.arm.com/tools-and-software/development-boards/fpga-prototyping-boards/mps2
-   DAI0385D_cortex_m3_on_v2m_mps2.pdf
-   DDI0479D_m_class_processor_system_r1p1_trm.pdf
+
+| MPS2 平台：
+|  https://developer.arm.com/tools-and-software/development-boards/fpga-prototyping-boards/mps2
+|  DAI0385D_cortex_m3_on_v2m_mps2.pdf
+|  DDI0479D_m_class_processor_system_r1p1_trm.pdf
 
    ARM m3 手册：
    DUI0552A_cortex_m3_dgug.pdf
@@ -25,10 +26,6 @@ Baremetal M33
 
    begin.rst
    m3_start.rst
+   m3_add_makefile_and_lds.rst
 
-Indices and tables
-==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
