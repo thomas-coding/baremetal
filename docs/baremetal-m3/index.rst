@@ -8,16 +8,16 @@ Baremetal M3
 |  DAI0385D_cortex_m3_on_v2m_mps2.pdf
 |  DDI0479D_m_class_processor_system_r1p1_trm.pdf
 
-   ARM m3 手册：
+ARM m3 手册：
    DUI0552A_cortex_m3_dgug.pdf
 
-   QEMU:
+QEMU:
    qemu-6.0.0
 
-   Toolchain:
+Toolchain:
    gcc-arm-none-eabi-10-2020-q4-major
 
-   ARM 参考代码：
+ARM 参考代码：
    https://github.com/ARM-software/CMSIS_5/tree/develop/Device/ARM/ARMCM3
 
 .. toctree::
