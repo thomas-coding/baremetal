@@ -200,3 +200,24 @@
 
 到这里我们的代码不仅支持C函数，还可以打印log了。
 
+
+::
+
+	__Vectors:
+		.long		0x1000				/*     Top of Stack */
+		.long		Reset_Handler		/*     Reset Handler */		
+
+		.thumb_func
+		.globl   Reset_Handler
+	Reset_Handler:
+		ldr r0,=0x10
+		ldr r1,=0x40004010
+		str r0,[r1]
+		ldr r0,=0x1
+		ldr r1,=0x40004008
+		str r0,[r1]
+		ldr r0,='h'
+		ldr r1,=0x40004000
+		str r0,[r1]
+
+考虑最小系统，让m3跑起来并输出log，实际上只需要上面这十几行代码就够了，对应到到 binary 几十个bytes。
