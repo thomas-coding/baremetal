@@ -148,3 +148,11 @@ https://makefile-study.readthedocs.io/zh_CN/latest/
 .. note::
  只有一个section，把代码段放入到ram中，注意这个entry定义了入口，Reset_Handler需要在start.S中定义为globl（	.globl   Reset_Handler）。
 
+基于现在的代码框架，编译和调试都用shell命令来管理，比较方便了。
+
+::
+
+    ./build.sh a
+    ./runqemu.sh --gdb
+    ./rungdb.sh
+
