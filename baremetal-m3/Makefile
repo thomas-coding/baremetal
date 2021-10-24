@@ -49,20 +49,21 @@ OBJ_FILES	:= $(OBJ_S_FILES) $(OBJ_C_FILES)
 # 2. Comple all OBJ_FILES, from .c .S to .o
 # 3. Link all .o to binary target
 $(BIN_DIR)/$(ELF) : $(OBJ_DIRS) $(BIN_DIR) $(OBJ_FILES)
+	@echo ""
 	$(LINKER)  $(LDFLAGS) -o $@ $(OBJ_FILES)
-	$(DUMP) -xD $@ > $(BIN_DIR)/$(Target).asm
-	$(OBJCOPY) -O binary  $@  $(BIN_DIR)/$(Target).bin
-	xxd $(BIN_DIR)/$(Target).bin > $(BIN_DIR)/$(Target).hex
-	@echo "Linking complete!"
+	@$(DUMP) -xD $@ > $(BIN_DIR)/$(Target).asm
+	@$(OBJCOPY) -O binary  $@  $(BIN_DIR)/$(Target).bin
+	@xxd $(BIN_DIR)/$(Target).bin > $(BIN_DIR)/$(Target).hex
+#	@echo "Linking complete!"
 
 # Compile .c to .o
 obj/%.o : src/%.c
-	@echo Compiling $< to $@
+#	@echo Compiling $< to $@
 	$(CC) $(CFLAG) $(INCLUDES) $(TARGET_ARCH) -c $< -o $@
 
 # Compile .S to .o
 obj/%.o : src/%.S
-	@echo $@ Compiling $< to $@
+#	@echo Compiling $< to $@
 	$(CC) $(ASFLAGS) -c $(TARGET_ARCH) $< -o $@
 
 
@@ -72,7 +73,7 @@ clean :
 	@echo "Cleanup complete!"
 
 $(OBJ_DIRS):
-	mkdir -p $@
+	@mkdir -p $@
 
 $(BIN_DIR):
-	mkdir -p $@
+	@mkdir -p $@
