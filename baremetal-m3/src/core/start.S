@@ -5,7 +5,7 @@
  */
 
 __Vectors:
-	.long		0x12345678			/*     Top of Stack */
+	.long		0x1000				/*     Top of Stack */
 	.long		Reset_Handler		/*     Reset Handler */
 	.long		0x11111111		
 	.long		0x22222222		
@@ -16,5 +16,8 @@ Reset_Handler:
 	mov		r0, #1
 	mov		r1, #2
 	mov		r2, #3
+	mov		r7, #6
+	bl		main
+	mov		r3, #4
 	b		.
 	mov		r2, #4

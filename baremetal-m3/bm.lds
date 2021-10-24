@@ -6,7 +6,7 @@
 
 /* Embedded RAM Configuration */
 __RAM_BASE = 0x0;
-__RAM_SIZE = 0x10000;
+__RAM_SIZE = 0x1000;
 
 
 MEMORY

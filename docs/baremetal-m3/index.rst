@@ -27,5 +27,6 @@ ARM 参考代码：
    begin.rst
    m3_start.rst
    m3_add_makefile_and_lds.rst
+   m3_add_main_function.rst
 
 
