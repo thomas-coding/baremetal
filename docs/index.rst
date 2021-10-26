@@ -18,5 +18,6 @@ Welcome to Baremetal's documentation!
    :caption: Contents:
 
    baremetal-m3/index.rst
+   baremetal-a15/index.rst
 
 

@@ -20,6 +20,9 @@ Toolchain:
 ARM 参考代码：
    https://github.com/ARM-software/CMSIS_5/tree/develop/Device/ARM/ARMCM3
 
+代码：
+   https://github.com/thomas-coding/baremetal
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
