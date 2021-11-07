@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# shell folder
+# Shell folder
 shell_folder=$(cd "$(dirname "$0")" || exit;pwd)
 
 export PATH="/root/workspace/software/qemu/qemu-6.0.0/build/:$PATH"
@@ -18,5 +18,8 @@ qemu_option+=" --semihosting-config enable=on,target=native"
 qemu_option+=" -kernel ${shell_folder}/output/target.elf"
 qemu_option+=" -serial stdio -nographic"
 
-# run qemu
-qemu-system-arm ${qemu_option}
+# Run qemu
+#qemu-system-arm ${qemu_option}
+
+# Change to develop qemu
+../../qemu/build/arm-softmmu/qemu-system-arm ${qemu_option}

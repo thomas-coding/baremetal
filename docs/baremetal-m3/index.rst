@@ -32,5 +32,6 @@ ARM 参考代码：
    m3_add_makefile_and_lds.rst
    m3_add_main_function.rst
    m3_add_log.rst
+   m3_ld.rst
 
 

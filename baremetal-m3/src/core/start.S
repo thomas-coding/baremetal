@@ -5,7 +5,7 @@
  */
 
 __Vectors:
-	.long		0x1000				/*     Top of Stack */
+	.long		__StackTop				/*     Top of Stack */
 	.long		Reset_Handler		/*     Reset Handler */
 	.long		0x11111111		
 	.long		0x22222222		

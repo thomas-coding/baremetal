@@ -6,8 +6,9 @@
 
 /* Embedded RAM Configuration */
 __RAM_BASE = 0x0;
-__RAM_SIZE = 0x1000;
+__RAM_SIZE = 0x400000;
 
+__STACK_SIZE = 0x00010000;
 
 MEMORY
 {
@@ -21,5 +22,23 @@ SECTIONS
 	.text :
 	{
 		*(.text*)
+		*(.rodata*)
 	} > RAM
+
+	.data :
+	{
+		*(.data*)
+	} > RAM
+
+	.bss :
+	{
+		*(.bss*)
+	} > RAM
+
+	.stack (ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE) :
+	{
+		. = . + __STACK_SIZE;
+		__StackTop = .;
+    } > RAM
+
 }
