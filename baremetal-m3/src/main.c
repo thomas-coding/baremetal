@@ -9,7 +9,7 @@
 int global_variable_data = 0x11223344;
 int global_variable_bss1;
 
-int main(void)
+void printf_test(void)
 {
 	unsigned int test = 0x12345678;
 
@@ -19,5 +19,10 @@ int main(void)
 	bm_printf_value("This is test value:", test);
 	bm_printf_value("The golbal variable is :", global_variable_data);
 	bm_printf_value("The golbal variable is :", global_variable_bss1);
+}
+
+int main(void)
+{
+	printf_test();
 	return 0;
 }
