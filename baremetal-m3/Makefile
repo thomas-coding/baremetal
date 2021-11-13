@@ -11,8 +11,8 @@ TARGET_ARCH	= -mcpu=$(CPU)
 
 # Compile command and flag
 CC = arm-none-eabi-gcc
-CFLAG = -Wall -mthumb
-ASFLAGS =
+CFLAG = -Wall -mthumb -g
+ASFLAGS = -g
 
 # Linker command and flag
 LINKER = arm-none-eabi-gcc
