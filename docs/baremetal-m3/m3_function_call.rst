@@ -109,19 +109,7 @@
 
 代码如下：在入口函数中增加一个Assemble_learn函数的调用，在子函数中通过push和pop操作栈
 
-.. code-block::asm
-
-	/*
-	* Copyright (c) 2021-2031, Jinping Wu. All rights reserved.
-	*
-	* SPDX-License-Identifier: MIT
-	*/
-
-	__Vectors:
-		.long		__StackTop				/*     Top of Stack */
-		.long		Reset_Handler			/*     Reset Handler */
-		.long		0x11111111
-		.long		0x22222222
+.. code-block::
 
 		.thumb_func
 	Assemble_learn:
