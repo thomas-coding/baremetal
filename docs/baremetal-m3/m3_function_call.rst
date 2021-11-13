@@ -104,5 +104,111 @@
 
 
 
+7.3 栈的使用
+-------------------------------------------
+
+代码如下：在入口函数中增加一个Assemble_learn函数的调用，在子函数中通过push和pop操作栈
+
+.. code-block::asm
+
+	/*
+	* Copyright (c) 2021-2031, Jinping Wu. All rights reserved.
+	*
+	* SPDX-License-Identifier: MIT
+	*/
+
+	__Vectors:
+		.long		__StackTop				/*     Top of Stack */
+		.long		Reset_Handler			/*     Reset Handler */
+		.long		0x11111111
+		.long		0x22222222
+
+		.thumb_func
+	Assemble_learn:
+		push	{r0-r7}						/* Save registers to stack , thumbe only support r0-r7*/
+		add     r7, sp, #0					/* Save sp to r7 */
+
+		mov		r0, #0
+		mov		r1, #0
+		mov		r2, #0
+		mov		r3, #0
+		mov		r4, #0
+		mov		r5, #0
+		mov		r6, #0
+
+		mov     sp, r7						/* Restore sp*/
+		pop		{r0-r7}						/* Restore registers*/
+		bx		lr							/* Return*/
+
+		.thumb_func
+		.globl   Reset_Handler
+	Reset_Handler:
+		mov		r0, #0
+		mov		r1, #1
+		mov		r2, #2
+		mov		r3, #3
+		mov		r4, #4
+		mov		r5, #5
+		mov		r6, #6
+		mov		r7, #7
+		bl		Assemble_learn
+		mov		r7, #6
+		bl		main
+		mov		r3, #4
+		b		.
+		mov		r2, #4
+
+
+1.进入Assemble_learn之前打印sp内容：
+sp             0x400000            0x400000
+
+.. code-block::
+
+	(gdb) x/16xw 0x400000-16*4
+	0x3fffc0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3fffd0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3fffe0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3ffff0:       0x00000000      0x00000000      0x00000000      0x00000000
+
+当前sp指向 0x400000， 在栈顶，栈里面的内容都是0
+
+
+2.接下来跑完 push	{r0-r7}	 指令后再看现场：
+
+sp             0x3fffe0            0x3fffe0
+
+.. code-block::
+
+	(gdb) x/16xw 0x400000-16*4
+	0x3fffc0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3fffd0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3fffe0:       0x00000000      0x00000001      0x00000002      0x00000003
+	0x3ffff0:       0x00000004      0x00000005      0x00000006      0x00000007
+
+可以看到sp指针指向了0x3fffe0，stack中最后8个4字节保存了r0-r7，其中r7最先保存
+
+
+3.接下来看跑完pop		{r0-r7}	指令后，现场情况
+
+sp             0x400000            0x400000
+
+.. code-block::
+
+	(gdb)  x/16xw 0x400000-16*4
+	0x3fffc0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3fffd0:       0x00000000      0x00000000      0x00000000      0x00000000
+	0x3fffe0:       0x00000000      0x00000001      0x00000002      0x00000003
+	0x3ffff0:       0x00000004      0x00000005      0x00000006      0x00000007
+
+栈顶回到了0x400000，栈中数据还在（因为没人清），但是这部分数据不会再有人用了，当下次执行push指令时，会覆盖掉
+
+.. note::
+	| 总结下函数调用：
+	| 1、执行BL跳转指令时，硬件把下一条要执行的指令放入LR，然后把子函数地址赋值给pc后执行子函数。
+	| 2、字函数执行完成后，BX lr 即可执行主函数中下一条指令，即实现了函数返回。
+	| 3、c程序入参和返回通过r0-r4来传递（超过了会使用sp），编译器会处理。
+	| 4、栈从高地址向低地址增长，通过push指令把寄存器值保存到栈上，通过pop指令恢复。
+
+
 
 
