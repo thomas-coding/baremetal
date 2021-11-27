@@ -30,6 +30,7 @@ Clear_r0_2_r6:
 	mov		r6, #0
 	pop		{pc}
 
+	/* mov, str, ldr, push, pop */
 	.thumb_func
 Move_Data:
 	push	{r0-r7, lr}
@@ -103,6 +104,102 @@ Process_Data:
 	ldr		r1, =6
 	udiv	r2, r0, r1					/* Unsigned div, r2 = r0 / r1 */
 
+	/* and, orr, bic, lsl, lsr */
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0b1111
+	ldr		r1, =0b0101
+	and		r0, r1						/* bitwise and r0 = r0 & r1 */
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0b1111
+	ldr		r1, =0b0101
+	orr		r0, r1						/* bitwise or r0 = r0 | r1 */
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0b11111111
+	ldr		r1, =0b00110000
+	bic		r0, r1						/* bit clear r0 = r0 & (~r1) =0b1100 1111 */
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0b00001100
+	lsl		r0, #0x3					/* logic shift left r0 = r0 << 0x3 =0b0110 0000 */
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0b00001100
+	lsr		r0, #0x2					/* logic shift right r0 = r0 >> 0x2 =0b0000 0011 */
+
+	pop		{r0-r7, pc}
+
+	.thumb_func
+Branch_Test_No_Return:
+#	push	{r0-r7, lr}
+	ldr		r6, =0xa5a5a5a5
+	b		.
+#	pop		{r0-r7, pc}
+
+	.thumb_func
+Branch_Test_With_Return:
+	push	{lr}
+	ldr		r6, =0x5a5a5a5a
+	pop		{pc}
+
+	.thumb_func
+Call_And_Branch:
+	push	{r0-r7, lr}
+
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, = 0x1111
+	b		1f							/* branch to 1 (after), so r0 will be still 0x1111 */
+	ldr		r0, = 0x2222
+1:
+	nop
+
+#	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+#	ldr		r0, = Branch_Test_No_Return
+#	bx		r0							/* branch to r0 address, not return, if test, open it */
+
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	bl		Branch_Test_With_Return		/* branch to function with lr saved */
+
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, = Branch_Test_With_Return
+	blx		r0							/* branch to r0 address with lr save */
+
+	pop		{r0-r7, pc}
+
+
+	.thumb_func
+Compare_And_Branch:
+	push	{r0-r7, lr}
+
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0x12121212
+	ldr		r1, =0x12121212
+	cmp		r0, r1
+	beq		2f							/* if r0 = r1, branch to lable 2 */
+	ldr		r2, =0x33333333
+2:
+	ldr		r3, =0x22222222
+	nop
+
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	ldr		r0, =0x12121212
+	ldr		r1, =0x12121212
+	cmp		r0, r1
+	bne		3f							/* if r0 != r1, branch to lable 3 */
+	ldr		r2, =0x33333333
+3:
+	ldr		r3, =0x22222222
+	nop
+
+	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
+	mov		r0, #100					/* Just like C 'for' function, Set loop counter */
+loop:
+	cbz		r0, loopexit				/* Counter !=0 */
+	add		r1, r0
+	sub		r0, #1						/* Counter-- */
+	b		loop
+loopexit:
+
+	dsb									/* Data synchronization barrier */
+	isb									/* Instruction synchronization barrierc */
+
 	pop		{r0-r7, pc}
 
 
@@ -114,6 +211,9 @@ Assemble_learn:
 
 	bl		Move_Data					/* Learn data move instruction */
 	bl		Process_Data				/* Learn data process instruction */
+	bl		Call_And_Branch				/* Learn call and branch instruction */
+	bl		Call_And_Branch				/* Learn call and branch instruction */
+	bl		Compare_And_Branch			/* Learn compare and branch instructioin */
 
 	mov		sp, r7						/* Restore sp */
 	pop		{r0-r7, pc}					/* Restore registers */
