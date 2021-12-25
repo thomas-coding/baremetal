@@ -7,6 +7,7 @@
 #include <console.h>
 #include <sys_ctrl.h>
 #include <mpu.h>
+#include <nvic.h>
 
 int global_variable_data = 0x11223344;
 int global_variable_bss1;
@@ -30,6 +31,7 @@ void platform_init(void)
 	console_init();
 	sys_ctrl_init();
 	mpu_init();
+	nvic_init();
 }
 
 int main(void)

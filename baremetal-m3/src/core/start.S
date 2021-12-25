@@ -22,6 +22,8 @@ __Vectors:
 	.long    PendSV_Handler                     /*  -2 PendSV Handler */
 	.long    SysTick_Handler                    /*  -1 SysTick Handler */
 
+	.space   (214 * 4)                          /* Interrupts 10 .. 224 are left out */
+
 	.thumb_func
 	.globl   Reset_Handler
 Reset_Handler:

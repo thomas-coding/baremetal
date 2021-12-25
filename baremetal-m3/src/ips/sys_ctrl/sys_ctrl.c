@@ -43,5 +43,5 @@ void dump_sys_ctrl_reg(void)
 void sys_ctrl_init(void)
 {
 	bm_printf("Enter sys ctrl init!\n");
-	dump_sys_ctrl_reg();
+	//dump_sys_ctrl_reg();
 }

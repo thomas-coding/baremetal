@@ -105,5 +105,5 @@ void mpu_init(void)
 	bm_printf("Enter mpu init!\n");
 	mpu_config();
 	test_unprivileged_acess();
-	dump_mpu_reg();
+	//dump_mpu_reg();
 }
