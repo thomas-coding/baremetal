@@ -132,10 +132,27 @@ void nvic_normal_interrupt_test(void)
 	NVIC->ISPR[(((uint32_t)TEST_NORNAL_IRQ) >> 5UL)] = (uint32_t)(1UL << (((uint32_t)TEST_NORNAL_IRQ) & 0x1FUL));
 }
 
+void nvic_system_reset_test(void)
+{
+	bm_printf("nvic_system_reset_test\n");
+	asm volatile("dsb");
+
+	/* Set bit[31:16] = 0x05fa, bit2 = 0 */
+	SCB->AIRCR = 0x05FA0004;
+	asm volatile("dsb");
+
+	/* wait until reset */
+	for(;;)
+	{
+		asm volatile("nop");
+	}
+}
+
 void nvic_test(void)
 {
 	nvic_normal_interrupt_test();
 	nvic_interrupt_prompt_test();
+	//nvic_system_reset_test();
 }
 
 void nvic_init(void)
