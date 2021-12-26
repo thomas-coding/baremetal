@@ -16,6 +16,8 @@ void dump_systick_reg(void)
 	bm_printf_value_u32("systick CALIB: ", SysTick->CALIB);
 }
 
+uint8_t wait_for_interrupt = 0;
+
 void systick_isr(void)
 {
 	/* Disable systick */
@@ -24,6 +26,8 @@ void systick_isr(void)
 	asm volatile("isb");
 
 	bm_printf("systick_isr called!\n");
+
+	wait_for_interrupt = 1;
 }
 
 void systick_interrupt_test(void)
@@ -43,6 +47,9 @@ void systick_interrupt_test(void)
 
 	/* Use processor clock source, assert interrupt, enable */
 	SysTick->CTRL = 0x7;
+
+	bm_printf("wait for systick interrupt ...\n");
+	while(!wait_for_interrupt);
 }
 
 
