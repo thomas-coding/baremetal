@@ -49,7 +49,10 @@ void systick_interrupt_test(void)
 	SysTick->CTRL = 0x7;
 
 	bm_printf("wait for systick interrupt ...\n");
-	while(!wait_for_interrupt);
+
+	/* wfi is more better, core will enter sleep mode before systick interrupt */
+	asm volatile("wfi");
+	//while(!wait_for_interrupt);
 }
 
 
