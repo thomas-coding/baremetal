@@ -1,9 +1,10 @@
 # baremetal
-目的是学习 arm cpu 硬件相关知识以及qemu相关知识，计划如下：
-1、写一个 Cortex-M3（armv7m） 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）
-Done - 2021/12/26
-https://github.com/thomas-coding/baremetal.git 中baremetal-m3 部分，
-完成arch相关功能学习验证，出于学习目的，没有使用libc，也没有使用CMSIS，内容包括启动代码、汇编、SCB、Exception、NVIC、Systick、MPU等
+目的是学习 arm cpu 硬件相关知识以及qemu相关知识，计划如下：<br />
+<br />
+1、写一个 Cortex-M3（armv7m） 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）<br />
+Done - 2021/12/26<br />
+https://github.com/thomas-coding/baremetal.git 中baremetal-m3 部分，<br />
+完成arch相关功能学习验证，出于学习目的，没有使用libc，也没有使用CMSIS，内容包括启动代码、汇编、SCB、Exception、NVIC、Systick、MPU等<br />
 
 2、写一个 QEMU 的 platform（自己搭一个虚拟板子）， 跑 Cortex-M3 的 baremetal code
 Done - 2021/12/31
