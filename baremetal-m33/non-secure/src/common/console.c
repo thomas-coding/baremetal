@@ -15,7 +15,9 @@ static const char HEX_TABLE[] = {'0', '1', '2', '3', '4', '5', '6', '7',
 
 void bm_printf(char *s)
 {
+
 	uart_putc('[');
+	uart_putc('n');
 	uart_putc('s');
 	uart_putc(']');
 	while (*s) {

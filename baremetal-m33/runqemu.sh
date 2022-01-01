@@ -13,9 +13,10 @@ else
     echo "not use gdb, just run"
 fi
 
-qemu_option+=" -machine mps2-an505 -monitor null -semihosting"
+qemu_option+=" -machine mps2-an521 -monitor null -semihosting"
 qemu_option+=" --semihosting-config enable=on,target=native"
-qemu_option+=" -kernel ${shell_folder}/secure/output/target.elf"
+qemu_option+=" -device loader,file=non-secure/output/target_ns.bin,addr=0x100000"
+qemu_option+=" -kernel ${shell_folder}/secure/output/target_s.elf"
 qemu_option+=" -serial stdio -nographic"
 
 # Run qemu

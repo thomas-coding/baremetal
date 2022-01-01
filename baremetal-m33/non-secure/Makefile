@@ -3,7 +3,7 @@
 # ------------------------
 
 # Project name
-Target = target_s
+Target = target_ns
 ELF = ${Target}.elf
 
 CPU = cortex-m33
