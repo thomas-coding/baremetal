@@ -13,13 +13,17 @@
 static const char HEX_TABLE[] = {'0', '1', '2', '3', '4', '5', '6', '7',
 								'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+int secure_flag_add = 0;
+
 void bm_printf(char *s)
 {
 
-	uart_putc('[');
-	uart_putc('n');
-	uart_putc('s');
-	uart_putc(']');
+	if (secure_flag_add == 0) {
+		uart_putc('[');
+		uart_putc('n');
+		uart_putc('s');
+		uart_putc(']');
+	}
 	while (*s) {
 		uart_putc(*s);
 		s++;
@@ -75,13 +79,17 @@ static void bm_printf_hex_u8(unsigned char value)
 void bm_printf_value_u32(char *s, unsigned int value)
 {
 	bm_printf(s);
+	secure_flag_add = 1;
 	bm_printf_hex_u32(value);
+	secure_flag_add = 0;
 }
 
 void bm_printf_value_u8(char *s, unsigned char value)
 {
 	bm_printf(s);
+	secure_flag_add = 1;
 	bm_printf_hex_u8(value);
+	secure_flag_add = 0;
 }
 
 void uart_rx_isr(void)

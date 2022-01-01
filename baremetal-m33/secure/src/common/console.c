@@ -8,20 +8,68 @@
 #include <nvic.h>
 #include <sys_ctrl.h>
 
+
+#define NONE                 "\e[0m"
+#define BLACK                "\e[0;30m"
+#define L_BLACK              "\e[1;30m"
+#define RED                  "\e[0;31m"
+#define L_RED                "\e[1;31m"
+#define GREEN                "\e[0;32m"
+#define L_GREEN              "\e[1;32m"
+#define BROWN                "\e[0;33m"
+#define YELLOW               "\e[1;33m"
+#define BLUE                 "\e[0;34m"
+#define L_BLUE               "\e[1;34m"
+#define PURPLE               "\e[0;35m"
+#define L_PURPLE             "\e[1;35m"
+#define CYAN                 "\e[0;36m"
+#define L_CYAN               "\e[1;36m"
+#define GRAY                 "\e[0;37m"
+#define WHITE                "\e[1;37m"
+
+
 #define U32_MAX_DIGIT_BITS 12  /* 8 char for number, 2 for '0x' and 1 for '\n', last 0 for end */
 #define U8_MAX_DIGIT_BITS 6  /* 2 char for number, 2 for '0x' and 1 for '\n', last 0 for end */
 static const char HEX_TABLE[] = {'0', '1', '2', '3', '4', '5', '6', '7',
 								'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+int secure_flag_add = 0;
+
+void change_to_none(void)
+{
+
+	uart_putc('\033');
+	uart_putc('[');
+	uart_putc('0');
+	uart_putc('m');
+
+}
+
+void change_to_blue(void)
+{
+
+	uart_putc('\033');
+	uart_putc('[');
+	uart_putc('1');
+	uart_putc(';');
+	uart_putc('3');
+	uart_putc('4');
+	uart_putc('m');
+}
+
 void bm_printf(char *s)
 {
-	uart_putc('[');
-	uart_putc('s');
-	uart_putc(']');
+	change_to_blue();
+	if (secure_flag_add == 0) {
+		uart_putc('[');
+		uart_putc('s');
+		uart_putc(']');
+	}
 	while (*s) {
 		uart_putc(*s);
 		s++;
 	}
+	change_to_none();
 }
 
 static void to_hex_u32(unsigned int value, char msg[])
@@ -73,13 +121,17 @@ static void bm_printf_hex_u8(unsigned char value)
 void bm_printf_value_u32(char *s, unsigned int value)
 {
 	bm_printf(s);
+	secure_flag_add = 1;
 	bm_printf_hex_u32(value);
+	secure_flag_add = 0;
 }
 
 void bm_printf_value_u8(char *s, unsigned char value)
 {
 	bm_printf(s);
+	secure_flag_add = 1;
 	bm_printf_hex_u8(value);
+	secure_flag_add = 0;
 }
 
 void uart_rx_isr(void)
