@@ -18,7 +18,7 @@ ASFLAGS = -g
 LINKER = arm-none-eabi-gcc
 #LDFLAGS	= -nostdlib -e 0x0 -Ttext=0x0 -mcpu=cortex-m3
 #LDFLAGS	= -nostdlib -mcpu=cortex-m3 -T bm.lds
-LDFLAGS	= -nostdlib -mcpu=cortex-m3 bm.lds
+LDFLAGS	= -nostdlib -mcpu=cortex-m3 -T bm.lds
 
 DUMP = arm-none-eabi-objdump
 OBJCOPY = arm-none-eabi-objcopy
