@@ -8,14 +8,14 @@
 /* Ref: DUI0552A_cortex_m3_dgug.pdf, Chapter 3 The Cortex-M3 Instruction Set*/
 /* Ref: The Definitive Guide to the ARM® Cortex-M3,  Instruction Sets */
 
-#define Test_Memory_Start 0x200000 (2M offset)
+#define Test_Memory_Start 0x100000 (1M offset)
 
 /* 
- * total: sram 0x0 - 0x400000 (0-4M)
+ * total: sram 0x0 - 0x200000 (0-2M)
  *
  * 0x0 - 0x??  text,data,bss
  * blank
- * 0x3e0000 - 0x400000 stack
+ * 0x3e0000 - 0x200000 stack
  */
 
 	.thumb_func

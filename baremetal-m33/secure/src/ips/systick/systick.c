@@ -25,7 +25,7 @@ void systick_isr(void)
 	asm volatile("dsb");
 	asm volatile("isb");
 
-	bm_printf("systick_isr called!\n");
+	bm_printf("s systick_isr called!\n");
 
 	wait_for_interrupt = 1;
 }

@@ -9,6 +9,9 @@
 #include <mpu.h>
 #include <nvic.h>
 #include <systick.h>
+#include <sau.h>
+#include <mpc.h>
+#include <ppc.h>
 
 int global_variable_data = 0x11223344;
 int global_variable_bss1;
@@ -27,37 +30,32 @@ void printf_test(void)
 	bm_printf_value_u8("unsigned char print test :", test_u8);
 }
 
-#define TZ_START_NS 0x100000
-/* Non-secure function type declaration */
-typedef void nsfunc(void);
-
-void set_mps_ns(uint32_t topOfMainStack)
+void call_ns_world(void)
 {
-  asm volatile ("MSR msp_ns, %0" : : "r" (topOfMainStack) : );
-}
+	/* Set non-secure world vector base address */
+	*(volatile unsigned int *)0xe002ed08=0x200000;
 
-/*
- * NOTE: Non-secure image must already be present in memory before running
- *       this function
- */
-void nonsecure_init(void)
-{
-	/* SCB_NS.VTOR points to the Non-secure vector table base address */
-	*(volatile unsigned int *)0xe002ed08=TZ_START_NS;
+	/* Set non-secure msp */
+	asm volatile ("ldr r0, =0x200000");
+	asm volatile ("ldr r1, [r0]");
+	asm volatile ("msr msp_ns, r1");
 
-	/* 1st entry in the vector table is the Non-secure Main Stack Pointer */
-	set_mps_ns(*((uint32_t *)TZ_START_NS));
-
-	/* 2nd entry contains the address of the Non-secure Reset_Handler */
-	nsfunc *ns_reset = ((nsfunc*)(*(((uint32_t *)TZ_START_NS)+1)));
-
-	ns_reset();       /* Call the Non-secure Reset_Handler */
+	/* Get non-secure entry */
+	asm volatile ("ldr r0, =0x200004");
+	asm volatile ("ldr r1, [r0]");
+	/* Bit0 set to 0, indicate enter non-secure state*/
+	asm volatile ("bic r1,r1,#0x1");
+	asm volatile ("bxns r1");
 }
 
 void platform_init(void)
 {
 	console_init();
 	sys_ctrl_init();
+	/* After sau init and before ppc init, can not used UART */
+	sau_init();
+	mpc_init();
+	ppc_init();
 	//mpu_init();
 	nvic_init();
 	systick_init();
@@ -67,6 +65,6 @@ int main(void)
 {
 	platform_init();
 	printf_test();
-	nonsecure_init();
+	call_ns_world();
 	return 0;
 }

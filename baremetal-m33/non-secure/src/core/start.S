@@ -35,9 +35,9 @@ Reset_Handler:
 	mov		r5, #5
 	mov		r6, #6
 	mov		r7, #7
-	bl		Assemble_learn
+#	bl		Assemble_learn
 	mov		r7, #6
-	bl		Exception_test
+#	bl		Exception_test
 	bl		main
 	mov		r3, #4
 	b		.

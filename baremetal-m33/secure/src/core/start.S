@@ -12,7 +12,7 @@ __Vectors:
 	.long    MemManage_Handler                  /* -12 MPU Fault Handler */
 	.long    BusFault_Handler                   /* -11 Bus Fault Handler */
 	.long    UsageFault_Handler                 /* -10 Usage Fault Handler */
-	.long    0                                  /*     Reserved */
+    .long    SecureFault_Handler                /*  -9 Secure Fault Handler */
 	.long    0                                  /*     Reserved */
 	.long    0                                  /*     Reserved */
 	.long    0                                  /*     Reserved */
@@ -35,9 +35,9 @@ Reset_Handler:
 	mov		r5, #5
 	mov		r6, #6
 	mov		r7, #7
-	bl		Assemble_learn
+#	bl		Assemble_learn
 	mov		r7, #6
-	bl		Exception_test
+#	bl		Exception_test
 	bl		main
 	mov		r3, #4
 	b		.
@@ -68,4 +68,5 @@ Default_Handler:
                 Set_Default_Handler  DebugMon_Handler
                 Set_Default_Handler  PendSV_Handler
                 Set_Default_Handler  SysTick_Handler
+                Set_Default_Handler  SecureFault_Handler
 

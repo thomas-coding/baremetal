@@ -5,8 +5,8 @@
  */
 
 /* Embedded RAM Configuration */
-__RAM_BASE = 0x100000;
-__RAM_SIZE = 0x400000; /*4M*/
+__RAM_BASE = 0x200000;
+__RAM_SIZE = 0x200000; /*2M*/
 
 __STACK_SIZE = 0x00010000;
 
