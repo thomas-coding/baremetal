@@ -35,6 +35,13 @@ SECTIONS
 		*(.bss*)
 	} > RAM
 
+	.nsc (0x10100000): ALIGN (32)
+	{
+		. = ALIGN(32);
+		*(.nsc*)
+		. = ALIGN(32);
+	} > RAM
+
 	.stack (ORIGIN(RAM) + LENGTH(RAM) - __STACK_SIZE) :
 	{
 		. = . + __STACK_SIZE;

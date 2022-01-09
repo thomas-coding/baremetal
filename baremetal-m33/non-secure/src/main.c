@@ -36,9 +36,19 @@ void platform_init(void)
 	systick_init();
 }
 
+void call_secure_world(void)
+{
+	asm volatile ("push {r0-r12, lr}");
+	asm volatile ("ldr r0, =0x10100001");
+	asm volatile ("blx r0");
+	asm volatile ("nop");
+	asm volatile ("pop {r0-r12, lr}");
+}
+
 int main(void)
 {
 	platform_init();
 	printf_test();
+	call_secure_world();
 	return 0;
 }

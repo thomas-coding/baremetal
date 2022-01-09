@@ -30,6 +30,11 @@ void printf_test(void)
 	bm_printf_value_u8("unsigned char print test :", test_u8);
 }
 
+void nsc_call_function(void)
+{
+	bm_printf("Enter nsc call!\n");
+}
+
 void call_ns_world(void)
 {
 	/* Set non-secure world vector base address */
@@ -53,9 +58,9 @@ void platform_init(void)
 	console_init();
 	sys_ctrl_init();
 	/* After sau init and before ppc init, can not used UART */
+	ppc_init();
 	sau_init();
 	mpc_init();
-	ppc_init();
 	//mpu_init();
 	nvic_init();
 	systick_init();

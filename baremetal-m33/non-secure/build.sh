@@ -3,7 +3,7 @@
 # shell folder
 shell_folder=$(cd "$(dirname "$0")" || exit;pwd)
 
-export PATH="/root/workspace/.toolchains/gcc-arm-none-eabi-10-2020-q4-major/bin/:$PATH"
+export PATH="/root/workspace/.toolchains/gcc-arm-none-eabi-10.3-2021.10/bin/:$PATH"
 
 cmd_help() {
 	echo "Basic mode:"

@@ -6,6 +6,7 @@
 
 #include <console.h>
 #include <sau.h>
+#include <ppc.h>
 
 void dump_sau_reg(void)
 {
@@ -25,18 +26,26 @@ void dump_sau_reg(void)
 
 /*
  * 0x0020_0000 - 0x003F_FFFF 2M NON-SECURE
+ * 0x0000_0000 - 0x000F_FFFF 1M Secure code
+ * 0x0010_0000 - 0x0017_FFFF 512k non-secure callable code
+ * 0xxxxx_xxxx - 0x001F_FFFF secure stack
  */
 void sau_config_and_enable(void)
 {
 	/* Non-secure sram */
-    SAU->RNR = 0;
-    SAU->RBAR = 0x00200000;
-    SAU->RLAR = 0x003FFFE1;
+	SAU->RNR = 0;
+	SAU->RBAR = 0x00200000;
+	SAU->RLAR = 0x003FFFE1;
 
 	/* Uart etc */
-    SAU->RNR = 1;
-    SAU->RBAR = 0x40100000;
-    SAU->RLAR = 0x4fffffE1;
+	SAU->RNR = 1;
+	SAU->RBAR = 0x40100000;
+	SAU->RLAR = 0x4fffffE1;
+
+	/* Non-secure callable sram */
+	SAU->RNR = 2;
+	SAU->RBAR = 0x10100000;
+	SAU->RLAR = 0x17FFFFE3;
 
 	/* Enable sau */
 	SAU->CTRL = 0x1;
@@ -45,6 +54,6 @@ void sau_config_and_enable(void)
 void sau_init(void)
 {
 	bm_printf("Enter sau init!\n");
-    sau_config_and_enable();
+	sau_config_and_enable();
 	//dump_sau_reg();
 }
