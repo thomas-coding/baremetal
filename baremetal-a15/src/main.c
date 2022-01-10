@@ -4,13 +4,16 @@
  * SPDX-License-Identifier: MIT
  */
 
+#include <console.h>
+
 void platform_init(void)
 {
-
+	console_init();
 }
 
 int main(void)
 {
 	platform_init();
+	bm_printf("enter main\n");
 	return 0;
 }
