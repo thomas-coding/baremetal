@@ -12,7 +12,20 @@ https://github.com/thomas-coding/qemu<br />
 参考MPS2，新建machine（thomas-m3），跑setp1写的baremetal代码，了解QOM相关概念和使用，了解TCG过程<br />
 <br />
 3、写一个 Cortex-M33（armv8m） 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）<br />
-5% - 2022/1/1<br />
+Done - 2022/1/10<br />
+<br />
+4、写一个 Cortex-A15（armv7） 的 baremetal code, 硬件平台为 ARM Virt A15 开发版（QEMU虚拟）<br />
+5% - 2022/1/10<br />
+安全状态跑到main函数<br />
+安全状态串口<br />
+安全状态mmu<br />
+安全状态cache<br />
+安全状态gic<br />
+安全状态usr mode以及svc<br />
+非安全状态main函数<br />
+非安全状态mmu、cache、gic<br />
+<br />
+
 <br />
 Docs:<br />
     https://baremetal.readthedocs.io/en/latest/
