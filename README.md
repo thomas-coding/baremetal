@@ -13,6 +13,9 @@ https://github.com/thomas-coding/qemu<br />
 <br />
 3、写一个 Cortex-M33（armv8m） 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）<br />
 Done - 2022/1/10<br />
+https://github.com/thomas-coding/baremetal.git 中baremetal-m33 部分，<br />
+完成Trustzone相关功能验证，出于学习目的，没有使用libc，也没有使用CMSIS，内容包括S和NS两个image，S侧SAU、PPC、MPC配置，S->NS，NS->NSC->S， BXNS、SG指令验证<br />
+
 <br />
 4、写一个 Cortex-A15（armv7） 的 baremetal code, 硬件平台为 ARM Virt A15 开发版（QEMU虚拟）<br />
 5% - 2022/1/10<br />
