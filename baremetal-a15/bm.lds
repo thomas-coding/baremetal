@@ -7,7 +7,8 @@
 
 MEMORY
 {
-	FLASH (rwx) : ORIGIN = 0, LENGTH = 0x08000000
+	FLASH (rx) : ORIGIN = 0, LENGTH = 0x08000000
+	RAM (rwx)  : ORIGIN = 0x0e000000, LENGTH = 0x01000000
 }
 
 ENTRY(Reset_Handler)
@@ -18,4 +19,15 @@ SECTIONS
 	{
 		*(.text*)
 	} > FLASH
+
+	.stack (NOLOAD):
+	{
+		. = ORIGIN(RAM) + LENGTH(RAM) -  0x00001000;
+		. = ALIGN(8);
+
+		Image$$SVC_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$SVC_STACK$$ZI$$Limit = .;
+
+	} > RAM
 }
