@@ -44,6 +44,22 @@ Reset_Handler:
 	b		.L_loop0_0
 .L_loop0_0_done:
 
+	/* Clear bss */
+	/* Read zero table, zero form r0, length is r2 */
+	ldr		r0, = __zero_table_start__
+	ldr		r1, [r0]
+	ldr		r2, [r0, #4]
+	/* The value of r0 will fill bss, for test, we can set it to 0xa5a5a5a5 */
+	ldr		r0, =0
+
+	/* r2-4, if result < 0, branch to done */
+.L_loop0_1:
+	subs	r2, #4
+	blt		.L_loop0_1_done
+	str		r0, [r1, r2]
+	b		.L_loop0_1
+.L_loop0_1_done:
+
 	bl		main
 	b		.
 

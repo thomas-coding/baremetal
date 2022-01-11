@@ -31,6 +31,15 @@ SECTIONS
 		__copy_table_end__ = .;
 	} > FLASH
 
+	.zero.table :
+	{
+		. = ALIGN(4);
+		__zero_table_start__ = .;
+		LONG (__bss_start__)
+		LONG (__bss_end__ - __bss_start__)
+		__zero_table_end__ = .;
+	} > FLASH
+
 	__etext = .;
 
 	.data : AT(__etext)
@@ -42,6 +51,13 @@ SECTIONS
 		/* All data end */
 		__data_end__ = .;
 
+	} > RAM
+
+	.bss ALIGN(16):
+	{
+		__bss_start__ = .;
+		*(.bss*)
+		__bss_end__ = .;
 	} > RAM
 
 	.stack (NOLOAD):
