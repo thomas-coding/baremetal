@@ -5,10 +5,12 @@
  */
 
 #include <console.h>
+#include <mmu.h>
 
 void platform_init(void)
 {
 	console_init();
+	mmu_init();
 }
 
 unsigned int golbal_variable_initialized1 = 0x88;

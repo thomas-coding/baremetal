@@ -8,7 +8,8 @@
 MEMORY
 {
 	FLASH (rx) : ORIGIN = 0, LENGTH = 0x08000000
-	RAM (rwx)  : ORIGIN = 0x0e000000, LENGTH = 0x01000000
+	TTB (rw) : ORIGIN = 0x0e000000, LENGTH = 0x00040000
+	RAM (rwx)  : ORIGIN = 0x0e100000, LENGTH = 0x00f00000
 }
 
 ENTRY(Reset_Handler)
@@ -42,6 +43,12 @@ SECTIONS
 
 	__etext = .;
 
+	.ARM_TLB (NOLOAD):
+	{
+		/* 4K * 4 TTB */
+		. = ALIGN(0x4000);
+	} > TTB
+
 	.data : AT(__etext)
 	{
 		. = ALIGN(4);
@@ -64,10 +71,8 @@ SECTIONS
 	{
 		. = ORIGIN(RAM) + LENGTH(RAM) -  0x00001000;
 		. = ALIGN(8);
-
 		Image$$SVC_STACK$$ZI$$Base = .;
 		. += 0x00001000;
 		Image$$SVC_STACK$$ZI$$Limit = .;
-
 	} > RAM
 }
