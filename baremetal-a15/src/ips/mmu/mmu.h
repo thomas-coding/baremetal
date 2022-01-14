@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-#ifndef PL011_H
-#define PL011_H
+#ifndef MMU_H
+#define MMU_H
 
 /* MACRO for size values */
 #define SIZE_4K				0x00001000

@@ -6,11 +6,13 @@
 
 #include <console.h>
 #include <mmu.h>
+#include <cache.h>
 
 void platform_init(void)
 {
 	console_init();
 	mmu_init();
+	cache_init();
 }
 
 unsigned int golbal_variable_initialized1 = 0x88;
