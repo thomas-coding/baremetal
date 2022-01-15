@@ -91,6 +91,15 @@ static void mmu_set_domain(unsigned int domain)
 	);
 }
 
+/* TLBIALLIS, Use cp15 c8 to invalidate TLB */
+void invalidate_tlb(void)
+{
+	__asm (
+		"mov r0, #0\n"
+		"mcr p15, 0, r0, c8, c3, 0" /* TLBIALLIS Invalidate all TLB*/
+	);
+}
+
 /**
  * Initializes the MMU
  */
@@ -112,6 +121,7 @@ void mmu_init(void)
 			DOMAIN_CTL_CLIENT(12) | DOMAIN_CTL_CLIENT(13) |
 			DOMAIN_CTL_CLIENT(14) | DOMAIN_CTL_CLIENT(15));
 
+	invalidate_tlb();
 
 	mmu_set_domain(domain_ctrl);
 
