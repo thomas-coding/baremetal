@@ -8,4 +8,5 @@
 #define CACHE_H
 
 void cache_init(void);
+void d_cache_invalidate_clean(void);
 #endif

@@ -46,9 +46,21 @@ unsigned int get_value_clidr(void)
 	return val;
 }
 
+/*  SCTLR Get control Register */
+unsigned int get_value_sctlr(void)
+{
+	unsigned int val = 0;
+
+	asm volatile("mrc p15, 0, %0, c1, c0, 0" : "=r" (val));
+
+	return val;
+}
+
 void get_cache_info(void)
 {
 	bm_printf_value_u32("clidr:", get_value_clidr());
+	/* 0x00C50079, arm mode, mmu enable, cache disable*/
+	bm_printf_value_u32("sctlr:", get_value_sctlr());
 
 	/* L1 i-cache info */
 	set_value_csselr(0x1);
@@ -105,11 +117,46 @@ void disable_icache(void)
 	);
 }
 
+/* Use cp15 c7 to invalidate i-cache */
+void invalidate_icache(void)
+{
+	__asm (
+		"mov r0, #0\n"
+		"mcr p15, 0, r0, c7, c5, 0" /* ICIALLU Invalidate all instruction caches to PoU*/
+	);
+}
+
+//extern void d_cache_invalidate_clean(void);
+/* Use cp15 c7 to clean and invalidate d-cache */
+void clean_and_invalidate_cache(void)
+{
+	invalidate_icache();
+	d_cache_invalidate_clean();
+}
+
+void enable_cache(void)
+{
+	enable_dcache();
+	enable_icache();
+}
+
+void disable_cache(void)
+{
+	disable_icache();
+	disable_dcache();
+}
+
+void cache_test(void)
+{
+	get_cache_info();
+	clean_and_invalidate_cache();
+}
 
 /**
  * Initializes the Cache
  */
 void cache_init(void)
 {
-	get_cache_info();
+	cache_test();
+	enable_cache();
 }
