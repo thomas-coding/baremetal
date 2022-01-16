@@ -7,12 +7,14 @@
 #include <console.h>
 #include <mmu.h>
 #include <cache.h>
+#include <gicv2.h>
 
 void platform_init(void)
 {
 	console_init();
 	mmu_init();
 	cache_init();
+	gicv2_init();
 }
 
 unsigned int golbal_variable_initialized1 = 0x88;
