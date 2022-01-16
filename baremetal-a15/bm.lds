@@ -67,6 +67,38 @@ SECTIONS
 		__bss_end__ = .;
 	} > RAM
 
+	.abort_stack (NOLOAD):
+	{
+		. = ALIGN(8);
+		Image$$ABORT_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$ABORT_STACK$$ZI$$Limit = .;
+	} > RAM
+
+	.undef_stack (NOLOAD):
+	{
+		. = ALIGN(8);
+		Image$$UNDEF_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$UNDEF_STACK$$ZI$$Limit = .;
+	} > RAM
+
+	.irq_stack (NOLOAD):
+	{
+		. = ALIGN(8);
+		Image$$IRQ_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$IRQ_STACK$$ZI$$Limit = .;
+	} > RAM
+
+	.fiq_stack (NOLOAD):
+	{
+		. = ALIGN(8);
+		Image$$FIQ_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$FIQ_STACK$$ZI$$Limit = .;
+	} > RAM
+
 	.stack (NOLOAD):
 	{
 		. = ORIGIN(RAM) + LENGTH(RAM) -  0x00001000;

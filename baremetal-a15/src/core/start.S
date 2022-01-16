@@ -15,18 +15,110 @@
 #define UND_MODE 0x1B            // Undefined Instruction mode
 #define SYS_MODE 0x1F            // System mode
 
+/* when I bit is set, IRQ is disabled */
+#define I_BIT  0x80
+/* when F bit is set, FIQ is disabled */
+#define F_BIT  0x40
+/* when NS bit is set, current is non-secure world */
+#define NS_BIT 0x01
+
 Vectors:
 	b	Reset_Handler
-	b	.
+	b	undefined_handler
+	b	svc_handler
+	b	prefetch_handler
+	b	abort_handler
+	b	. //Reserved vector
+	b	irq_handler
+	b	fiq_handler
+
+svc_handler:
+	B	svc_handler
+prefetch_handler:
+	B	prefetch_handler
+irq_handler:
+	B	irq_handler
+fiq_handler:
+	B	fiq_handler
+
+/* Abort Handler, hardware will change lr and cpsr, save caller cpsr to spsr */
+	.global	abort_handler
+	.type abort_handler, "function"
+abort_handler:
+	/* Pre-adjust lr */
+	/* If 0x6c instruction abort, hardware will save (+8)0x74 to lr, -4 is point to next instruction */
+	SUB	lr, lr, #4
+
+	/* SPSR is save caller CPSR */
+	/* Save lr and SPSR to ABT mode stack */
+	SRSFD	sp!, #0x17
+
+	/*
+	 * Save APCS corruptible registers to ABT mode stack (and maintain
+	 * 8 byte alignment)
+	 */
+	PUSH	{r0-r8, r12}
+
+	/* Do something here */
+
+	POP	{r0-r8, r12}        /* Restore stacked APCS registers */
+	RFEFD	sp!                 /* Return from exception, POP spsr and lr saved */
+
+/* Undefined Handler */
+	.global	undefined_handler
+	.type undefined_handler, "function"
+undefined_handler:
+	/* Pre-adjust lr */
+	SUB	lr, lr, #4
+
+	/* Save lr and SPSR to ABT mode stack */
+	SRSFD	sp!, #0x1b
+
+	/*
+	 * Save APCS corruptible registers to ABT mode stack (and maintain
+	 * 8 byte alignment)
+	 */
+	PUSH	{r0-r4, r12}
+
+	/* Do something here */
+
+	POP	{r0-r4, r12}        /* Restore stacked APCS registers */
+	RFEFD	sp!                 /* Return from exception */
+
 
 	.globl   Reset_Handler
 Reset_Handler:
 	mov		r0, #1
 	mov		r1, #2
 	mov		r2, #3
+	mov		r3, #4
+	mov		r4, #5
+	mov		r5, #6
+	mov		r6, #7
+	mov		r7, #8
+
+	/* Setup stack */
+	/* Set abort stack address, the end of secure sram */
+	msr	CPSR_c, #ABT_MODE | I_BIT | F_BIT
+	ldr		SP, =Image$$ABORT_STACK$$ZI$$Limit
+
+	msr	CPSR_c, #UND_MODE | I_BIT | F_BIT
+	ldr		SP, =Image$$UNDEF_STACK$$ZI$$Limit
+
+	msr	CPSR_c, #IRQ_MODE | I_BIT | F_BIT
+	ldr		SP, =Image$$IRQ_STACK$$ZI$$Limit
+
+	msr	CPSR_c, #FIQ_MODE | I_BIT | F_BIT
+	ldr		SP, =Image$$FIQ_STACK$$ZI$$Limit
 
 	/* Set stack address, the end of secure sram */
+	msr	CPSR_c, #SVC_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$SVC_STACK$$ZI$$Limit
+
+#	ldr		r3, =0x88888888 /* Test prefetch abort, bx set pc to 0x88888888, try to fetch from this address abort */
+#	bx		r3
+#	ldr		r3, =0x88888888 /* Test data abort, write value to 0x88888888 */
+#	str		r0, [r3]
 
 	/* Copy .data from flash to sram */
 	/* Read copy table, copy form r1 to r2, length is r3 */
