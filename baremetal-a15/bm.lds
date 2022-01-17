@@ -16,6 +16,11 @@ ENTRY(Reset_Handler)
 
 SECTIONS
 {
+	.vectors :
+	{
+		KEEP(*(startup))
+	} > FLASH
+
 	.text :
 	{
 		*(.text*)

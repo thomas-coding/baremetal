@@ -8,6 +8,7 @@
 #include <mmu.h>
 #include <cache.h>
 #include <gicv2.h>
+#include <misc.h>
 
 void platform_init(void)
 {
@@ -15,6 +16,7 @@ void platform_init(void)
 	mmu_init();
 	cache_init();
 	gicv2_init();
+	misc_init();
 }
 
 unsigned int golbal_variable_initialized1 = 0x88;
