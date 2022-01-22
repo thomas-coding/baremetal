@@ -18,16 +18,9 @@ https://github.com/thomas-coding/baremetal.git 中baremetal-m33 部分，<br />
 
 <br />
 4、写一个 Cortex-A15（armv7） 的 baremetal code, 硬件平台为 ARM Virt A15 开发版（QEMU虚拟）<br />
-5% - 2022/1/10<br />
-安全状态跑到main函数<br />
-安全状态串口<br />
-安全状态mmu<br />
-安全状态cache<br />
-安全状态gic<br />
-安全状态usr mode以及svc<br />
-非安全状态main函数<br />
-非安全状态mmu、cache、gic<br />
-<br />
+Done - 2022/1/22<br />
+完成启动代码，完成如下模块：串口，mmu，cache，gic，generic timer，完成异常处理，模式切换usr-svc，完成smc两个世界切换验证<br />
+
 
 <br />
 Docs:<br />
