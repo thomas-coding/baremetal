@@ -21,6 +21,24 @@ void platform_init(void)
 	generic_timer_init();
 }
 
+void svc_function_8(void)
+{
+	bm_printf("svc_function_8\n");
+}
+
+void usr_mode_test(void)
+{
+	/* Change to usr mode */
+	asm volatile("msr	CPSR_c, #0x10" );
+
+	bm_printf("now in usr mode\n");
+
+	/* Use svc call into svc mode */
+	asm volatile("svc #8" );
+
+	bm_printf("return from svc, still in usr mode\n");
+}
+
 unsigned int golbal_variable_initialized1 = 0x88;
 unsigned int golbal_variable_initialized2 = 0x77;
 unsigned int golbal_variable_not_init;
@@ -40,5 +58,6 @@ int main(void)
 	platform_init();
 	data_and_bss_test();
 	bm_printf("enter main\n");
+	usr_mode_test();
 	return 0;
 }

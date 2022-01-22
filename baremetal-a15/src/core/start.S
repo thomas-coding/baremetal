@@ -35,10 +35,31 @@ Vectors:
 	b	irq_handler
 	b	fiq_handler
 
-svc_handler:
-	B	svc_handler
 prefetch_handler:
 	B	prefetch_handler
+
+
+svc_handler:
+	srsfd	sp!, #0x13              // Store SPSR_svc and LR_svc onto SVC stack
+	/*
+	* Save APCS corruptible registers to IRQ mode stack (and maintain
+	* 8 byte alignment)
+	*/
+	PUSH	{r0-r8, r12}
+
+	#ldr	r12, [lr,#-2]               // Thumb: load halfword
+	#bic	r12, r12, #0xFF00           //        extract SVC number
+	ldr		r12, [lr,#-4]               // ARM:   load word
+	bic		r12, r12, #0xFF000000       //        extract SVC number
+	cmp		r12, #8                    // Compare SVC number
+	bleq	svc_function_8
+    /*
+     * This example only uses (and enables) one.  At this point
+     * you would normally check the ID, and clear the source.
+     */
+
+    POP		{r0-r8, r12}        /* Restore stacked APCS registers */
+    RFEFD	sp!                 /* Return from exception */
 
 irq_handler:
     /* Pre-adjust lr */
@@ -146,20 +167,24 @@ Reset_Handler:
 
 	/* Setup stack */
 	/* Set abort stack address, the end of secure sram */
-	msr	CPSR_c, #ABT_MODE | I_BIT | F_BIT
+	msr		CPSR_c, #ABT_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$ABORT_STACK$$ZI$$Limit
 
-	msr	CPSR_c, #UND_MODE | I_BIT | F_BIT
+	msr		CPSR_c, #UND_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$UNDEF_STACK$$ZI$$Limit
 
-	msr	CPSR_c, #IRQ_MODE | I_BIT | F_BIT
+	msr		CPSR_c, #IRQ_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$IRQ_STACK$$ZI$$Limit
 
-	msr	CPSR_c, #FIQ_MODE | I_BIT | F_BIT
+	msr		CPSR_c, #FIQ_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$FIQ_STACK$$ZI$$Limit
 
+	/* sys mode and user mode use same sp */
+	msr		CPSR_c, #SYS_MODE | I_BIT | F_BIT
+	ldr		SP, =Image$$USER_STACK$$ZI$$Limit
+
 	/* Set stack address, the end of secure sram */
-	msr	CPSR_c, #SVC_MODE | I_BIT | F_BIT
+	msr		CPSR_c, #SVC_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$SVC_STACK$$ZI$$Limit
 
 #	ldr		r3, =0x88888888 /* Test prefetch abort, bx set pc to 0x88888888, try to fetch from this address abort */

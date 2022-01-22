@@ -104,6 +104,14 @@ SECTIONS
 		Image$$FIQ_STACK$$ZI$$Limit = .;
 	} > RAM
 
+	.user_stack (NOLOAD):
+	{
+		. = ALIGN(8);
+		Image$$USER_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$USER_STACK$$ZI$$Limit = .;
+	} > RAM
+
 	.stack (NOLOAD):
 	{
 		. = ORIGIN(RAM) + LENGTH(RAM) -  0x00001000;
