@@ -9,6 +9,7 @@
 #include <cache.h>
 #include <gicv2.h>
 #include <misc.h>
+#include <generic_timer.h>
 
 void platform_init(void)
 {
@@ -17,6 +18,7 @@ void platform_init(void)
 	cache_init();
 	gicv2_init();
 	misc_init();
+	generic_timer_init();
 }
 
 unsigned int golbal_variable_initialized1 = 0x88;
