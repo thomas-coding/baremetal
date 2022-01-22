@@ -16,6 +16,7 @@ fi
 qemu_option+=" -machine virt,secure=on -cpu cortex-a15"
 qemu_option+=" -bios ${shell_folder}/output/target.bin"
 qemu_option+=" -nographic"
+#qemu_option+="  -smp 2"
 
 # run qemu
 qemu-system-arm ${qemu_option}
