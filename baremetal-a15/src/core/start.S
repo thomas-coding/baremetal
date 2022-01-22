@@ -39,10 +39,54 @@ svc_handler:
 	B	svc_handler
 prefetch_handler:
 	B	prefetch_handler
+
 irq_handler:
-	B	irq_handler
+    /* Pre-adjust lr */
+    SUB lr, lr, #4
+
+    /* Save lr and SPSR to IRQ mode stack */
+    SRSFD   sp!, #0x12
+
+    /*
+     * Save APCS corruptible registers to IRQ mode stack (and maintain
+     * 8 byte alignment)
+     */
+    PUSH    {r0-r8, r12}
+
+    /* Handle the interrupt */
+    BL  gic_irq_handler
+
+    /*
+     * This example only uses (and enables) one.  At this point
+     * you would normally check the ID, and clear the source.
+     */
+
+    POP {r0-r8, r12}        /* Restore stacked APCS registers */
+    RFEFD   sp!                 /* Return from exception */
+
 fiq_handler:
-	B	fiq_handler
+    /* Pre-adjust lr */
+    SUB lr, lr, #4
+
+    /* Save lr and SPSR to IRQ mode stack */
+    SRSFD   sp!, #0x11
+
+    /*
+     * Save APCS corruptible registers to IRQ mode stack (and maintain
+     * 8 byte alignment)
+     */
+    PUSH    {r0-r8, r12}
+
+    /* Handle the interrupt */
+    BL  gic_fiq_handler
+
+    /*
+     * This example only uses (and enables) one.  At this point
+     * you would normally check the ID, and clear the source.
+     */
+
+    POP {r0-r8, r12}        /* Restore stacked APCS registers */
+    RFEFD   sp!                 /* Return from exception */
 
 /* Abort Handler, hardware will change lr and cpsr, save caller cpsr to spsr */
 	.global	abort_handler

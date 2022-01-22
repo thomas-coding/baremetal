@@ -98,5 +98,24 @@ typedef struct
 #define GIC_INTERFACE_BASE	(0x08010000UL)
 #define GICInterface        ((GICInterface_Type        *)     GIC_INTERFACE_BASE )   /*!< \brief GIC Interface register set access pointer */
 
+
+#define INTR_ENTRY_NUM	151
+
+typedef void (*isr_handler_t)(uint32_t, void *);
+
+enum isr_type_t {
+	ISR_TYPE_IRQ = 0,
+	ISR_TYPE_FIQ = 1
+};
+
+/* struct israction_s - per interrupt action descriptor */
+struct israction_s {
+	isr_handler_t handler;	/* interrupt handler function */
+	enum isr_type_t	isr_type;	/* interrupt type */
+	void *dev_id;	/* used to identify the device */
+};
+
 void gicv2_init(void);
+void request_irq(uint32_t irq_num, enum isr_type_t isr_type,
+	isr_handler_t cur_src_isr, void *dev_id);
 #endif
