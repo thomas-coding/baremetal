@@ -17,6 +17,7 @@
 #define ABT_MODE 0x17            // Abort mode
 #define UND_MODE 0x1B            // Undefined Instruction mode
 #define SYS_MODE 0x1F            // System mode
+#define SMC_MODE 0x16            // SMC mode
 
 /* when I bit is set, IRQ is disabled */
 #define I_BIT  0x80
@@ -34,6 +35,45 @@ Vectors:
 	b	. //Reserved vector
 	b	irq_handler
 	b	fiq_handler
+
+smc_vectors:
+	B	. //reset_handler
+	B	. //undefined_handler
+	B	smc_handler
+	B	. //prefetch_handler
+	B	. //abort_handler
+	B	. //Reserved vector
+	B	. //irq_handler
+	B	. //fiq_handler
+
+smc_handler:
+	/*
+	 * Save APCS corruptible registers to SMC mode stack (and maintain
+	 * 8 byte alignment)
+	 */
+	PUSH	{r0-r4, r12}
+
+	/* Which world have we come from */
+	/* Read Secure Configuration Register data */
+	MRC     p15, 0, r0, c1, c1, 0
+	/* Toggle NS bit */
+	EOR     r0, r0, #NS_BIT
+	/* Write Secure Configuration Register data */
+	MCR     p15, 0, r0, c1, c1, 0
+	ISB
+
+	LDR	r0, =Vectors
+	/* Write Secure or Non-secure Vector Base Address */
+	MCR	p15, 0, r0, c12, c0, 0
+
+	/* Clear local monitor */
+	/* Not strictly required in this example, as not using LDREX/STREX */
+	/* However, architecturally should execute CLREX on a context switch */
+	CLREX
+
+	POP	{r0-r4, r12}        /* Restore stacked APCS registers */
+	/* Perform exception return */
+	MOVS    pc, lr
 
 prefetch_handler:
 	B	prefetch_handler
@@ -165,6 +205,17 @@ Reset_Handler:
 	mov		r6, #7
 	mov		r7, #8
 
+	/*
+	 * Set vector base address
+	 */
+	LDR	r0, =smc_vectors
+	/* Write SMC Vector Base Address */
+	MCR	p15, 0, r0, c12, c0, 1
+
+	LDR	r0, =Vectors
+	/* Write Secure or Non-secure Vector Base Address */
+	MCR	p15, 0, r0, c12, c0, 0
+
 	/* Setup stack */
 	/* Set abort stack address, the end of secure sram */
 	msr		CPSR_c, #ABT_MODE | I_BIT | F_BIT
@@ -178,6 +229,9 @@ Reset_Handler:
 
 	msr		CPSR_c, #FIQ_MODE | I_BIT | F_BIT
 	ldr		SP, =Image$$FIQ_STACK$$ZI$$Limit
+
+	msr		CPSR_c, #SMC_MODE | I_BIT | F_BIT
+	ldr		SP, =Image$$SMC_STACK$$ZI$$Limit
 
 	/* sys mode and user mode use same sp */
 	msr		CPSR_c, #SYS_MODE | I_BIT | F_BIT

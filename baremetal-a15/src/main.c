@@ -39,6 +39,24 @@ void usr_mode_test(void)
 	bm_printf("return from svc, still in usr mode\n");
 }
 
+/* NOTICE: This test should modify qemu source code first.
+ * hw/arm/virt.c virt_flash_map function, put all flash to non-secure.
+ * default 0x00000000-0x04000000 is configed as secure.
+ * When we call smc, change to non-secre, then we fetch instruction from flash will be fail.
+ */
+void smc_test(void)
+{
+	bm_printf("\nsmc_test start\n");
+
+	asm volatile("smc 0");
+	bm_printf("\nNow in non-secure world ...\n");
+	asm volatile("smc 0");
+	bm_printf("\nNow in secure world ...\n");
+
+	bm_printf("\n\nsmc_test\n\t\t - - - PASS\n");
+	bm_printf("\nsmc_test end\n");
+}
+
 unsigned int golbal_variable_initialized1 = 0x88;
 unsigned int golbal_variable_initialized2 = 0x77;
 unsigned int golbal_variable_not_init;
@@ -58,6 +76,7 @@ int main(void)
 	platform_init();
 	data_and_bss_test();
 	bm_printf("enter main\n");
+	//smc_test();
 	usr_mode_test();
 	return 0;
 }

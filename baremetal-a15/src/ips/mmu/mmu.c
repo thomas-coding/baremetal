@@ -19,10 +19,14 @@ __attribute__ ((section (".ARM_TLB"))) unsigned int mmu_ttb[SIZE_4K] = {0};
 #define PERIPH_BASE		0x08000000
 #define PERIPH_SIZE		0x06000000 /* 96M */
 
+#define DDR_BASE		0x40000000
+#define DDR_SIZE		0x06000000 /* 96M */
+
 struct mmu_section_entry mmu_section_entries[] = {
 	{FLASH_BASE, FLASH_BASE, FLASH_SIZE, L1_COHERENT},
 	{SEC_SRAM_BASE, SEC_SRAM_BASE, SEC_SRAM_SIZE, L1_COHERENT},
-	{PERIPH_BASE, PERIPH_BASE, PERIPH_BASE, L1_DEVICE},
+	{PERIPH_BASE, PERIPH_BASE, PERIPH_SIZE, L1_DEVICE},
+	{DDR_BASE, DDR_BASE, DDR_SIZE, L1_DEVICE},
 	{0xffffffff, 0xffffffff, 0x0, 0x0}
 };
 

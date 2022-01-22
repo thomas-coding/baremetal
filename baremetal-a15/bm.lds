@@ -7,9 +7,10 @@
 
 MEMORY
 {
-	FLASH (rx) : ORIGIN = 0, LENGTH = 0x08000000
+	FLASH (rx) : ORIGIN = 0x00000000, LENGTH = 0x08000000
 	TTB (rw) : ORIGIN = 0x0e000000, LENGTH = 0x00040000
-	RAM (rwx)  : ORIGIN = 0x0e100000, LENGTH = 0x00f00000
+	RAM (rwx)  : ORIGIN = 0x40000000, LENGTH = 0x00f00000
+	/* RAM (rwx)  : ORIGIN = 0x0e100000, LENGTH = 0x00f00000 */
 }
 
 ENTRY(Reset_Handler)
@@ -102,6 +103,14 @@ SECTIONS
 		Image$$FIQ_STACK$$ZI$$Base = .;
 		. += 0x00001000;
 		Image$$FIQ_STACK$$ZI$$Limit = .;
+	} > RAM
+
+	.smc_stack (NOLOAD):
+	{
+		. = ALIGN(8);
+		Image$$SMC_STACK$$ZI$$Base = .;
+		. += 0x00001000;
+		Image$$SMC_STACK$$ZI$$Limit = .;
 	} > RAM
 
 	.user_stack (NOLOAD):
