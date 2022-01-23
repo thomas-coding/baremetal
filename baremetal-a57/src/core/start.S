@@ -53,40 +53,35 @@ start:
 	ldr x0, =__stack
 	mov sp, x0
 
-
-	ldr		x0, = __copy_table_start__
-	ldr		x1, = __data_start__
-	ldr		x2, = __data_end__
-
 	/* Copy .data from flash to sram */
 	/* Read copy table, copy form r1 to r2, length is r3 */
 	ldr		x0, = __copy_table_start__
-	ldrsw	x1, [x0]
-	ldrsw	x2, [x0, #4]
-	ldrsw	x3, [x0, #8]
+	ldr		x1, [x0]
+	ldr		x2, [x0, #8]
+	ldr		x3, [x0, #16]
 
 	/* r3-4, if result < 0, branch to done */
 .L_loop0_0:
-	subs	x3, x3, #4
+	subs	x3, x3, #8
 	blt		.L_loop0_0_done
-	ldrsw	x0, [x1, x3]
-	str		w0, [x2, x3]
+	ldr		x0, [x1, x3]
+	str		x0, [x2, x3]
 	b		.L_loop0_0
 .L_loop0_0_done:
 
 	/* Clear bss */
 	/* Read zero table, zero form r0, length is r2 */
 	ldr		x0, = __zero_table_start__
-	ldrsw	x1, [x0]
-	ldrsw	x2, [x0, #4]
+	ldr		x1, [x0]
+	ldr		x2, [x0, #8]
 	/* The value of r0 will fill bss, for test, we can set it to 0xa5a5a5a5 */
 	ldr		x0, =0
 
 	/* r2-4, if result < 0, branch to done */
 .L_loop0_1:
-	subs	x2, x2, #4
+	subs	x2, x2, #8
 	blt		.L_loop0_1_done
-	str		w0, [x1, x2]
+	str		x0, [x1, x2]
 	b		.L_loop0_1
 .L_loop0_1_done:
 
