@@ -27,4 +27,11 @@ SECTIONS
 		*(.text*)
 		*(.rodata*)
 	} > FLASH
+
+	.stack (NOLOAD):
+	{
+		. = ALIGN(64);
+		. = . + 8 * 0x1000;
+		__stack = .;
+	} > RAM
 }
