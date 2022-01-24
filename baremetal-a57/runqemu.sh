@@ -4,6 +4,7 @@
 shell_folder=$(cd "$(dirname "$0")" || exit;pwd)
 
 export PATH="/root/workspace/software/qemu/qemu-6.0.0/build/:$PATH"
+export PATH="/home/cn1396/workspace/software/qemu/qemu-6.0.0/build/:$PATH"
 
 qemu_option=
 if [[ $1  = "--gdb" ]]; then
