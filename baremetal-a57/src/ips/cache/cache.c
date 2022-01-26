@@ -58,6 +58,108 @@ uint64_t get_value_ccsidr(void)
 	return val;
 }
 
+static inline uint32_t current_el(void)
+{
+	uint32_t el = 0;
+
+	asm volatile("mrs %0, CurrentEL" : "=r" (el) : : "cc");
+	return el >> 2;
+}
+
+static uint32_t get_sctlr(void)
+{
+	uint32_t el = 0, val = 0;
+
+	el = current_el();
+	if (el == 1)
+		asm volatile("mrs %0, sctlr_el1" : "=r" (val) : : "cc");
+	else if (el == 2)
+		asm volatile("mrs %0, sctlr_el2" : "=r" (val) : : "cc");
+	else
+		asm volatile("mrs %0, sctlr_el3" : "=r" (val) : : "cc");
+
+	return val;
+}
+
+static void set_sctlr(uint32_t val)
+{
+	uint32_t el = 0;
+
+	el = current_el();
+	if (el == 1)
+		asm volatile("msr sctlr_el1, %0" : : "r" (val) : "cc");
+	else if (el == 2)
+		asm volatile("msr sctlr_el2, %0" : : "r" (val) : "cc");
+	else
+		asm volatile("msr sctlr_el3, %0" : : "r" (val) : "cc");
+
+	asm volatile("isb");
+	asm volatile("dsb sy");
+}
+
+extern void asm_invalidate_icache_all(void);
+void invalidate_icache_all(void)
+{
+	asm_invalidate_icache_all();
+}
+
+void icache_enable(void)
+{
+	invalidate_icache_all();
+	set_sctlr(get_sctlr() | CR_I);
+}
+
+void icache_disable(void)
+{
+	set_sctlr(get_sctlr() & ~CR_I);
+}
+
+int icache_status(void)
+{
+	return (get_sctlr() & CR_I) != 0;
+}
+
+extern void __asm_invalidate_dcache_all(void);
+extern void __asm_flush_dcache_all(void);
+/*
+ * Performs a invalidation of the entire data cache at all levels
+ */
+void invalidate_dcache_all(void)
+{
+	__asm_invalidate_dcache_all();
+}
+
+void dcache_enable(void)
+{
+	/* The data cache is not active unless the mmu is enabled */
+	if (!(get_sctlr() & CR_M)) {
+		invalidate_dcache_all();
+	}
+
+	set_sctlr(get_sctlr() | CR_C);
+}
+
+void flush_dcache_all(void)
+{
+	__asm_flush_dcache_all();
+}
+
+void dcache_disable(void)
+{
+	/* if cache isn't enabled no need to disable */
+	if (!(get_sctlr() & CR_C))
+		return;
+
+	flush_dcache_all();
+	invalidate_dcache_all();
+}
+
+int dcache_status(void)
+{
+	return (get_sctlr() & CR_C) != 0;
+}
+
+
 void get_cache_info(void)
 {
 	/* 0x000000000A200023, include L1 and L2 cache, no L3 cache*/
@@ -94,4 +196,8 @@ void cache_test(void)
 void cache_init(void)
 {
 	cache_test();
+
+	icache_enable();
+
+	dcache_enable();
 }
