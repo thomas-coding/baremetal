@@ -19,5 +19,6 @@ qemu_option+=" -kernel ${shell_folder}/output/target.elf"
 qemu_option+=" -serial stdio -nographic"
 
 # Run qemu
-qemu-system-riscv64 ${qemu_option}
+#qemu-system-riscv64 ${qemu_option}
+qemu-system-riscv32 ${qemu_option}
 

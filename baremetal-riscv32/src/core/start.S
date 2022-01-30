@@ -15,6 +15,6 @@ _start:
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
-
+	j		.
 
 

@@ -17,6 +17,53 @@ clear_reg:
 
 	ret
 
+load_and_store_instruction:
+	addi	s2, x1, 0 //save lr
+
+	addi	x0, x0, 0 //nop
+	addi	x0, x0, 0 //nop
+	jal		clear_reg // jar equ jal x1, label
+
+	/* SB instruction */
+	lui		a0, 0x11223 // set a0 to 0x11223344
+	addi	a0, a0, 0x344
+	lui		a1, 0x81000 // set a1 to 0x8100_0000, should use riscv32, 64 will spread bit 32-63 to 1, it will be 0xffff_ffff_8100_0000
+	sb		a0, 0(a1) // store byte a0[7:0] to a1 + 0, [0x81000000] = 0x55
+
+	addi	x1, s2, 0 //restore lr
+	ret
+
+logical_instruction:
+	addi	s2, x1, 0 //save lr
+
+	addi	x0, x0, 0 //nop
+	addi	x0, x0, 0 //nop
+
+	jal		clear_reg // jar equ jal x1, label
+
+	/* XOR instruction */
+	addi	a0, x0, 0b101010
+	addi	a1, x0, 0b010101
+	xor		a2, a0, a1 // a0 ^ a1, bit by bit , save to a2, a2 = a0 ^ a1
+
+	/* XORI instruction */
+	xori	a3, a0, 0b101010 // a0 ^ 0b101010, bit by bit , save to a3, a3 = a0 ^ 0b101010
+
+	/* OR instruction */
+	or		a4, a0, a1 // a0 | a1, bit by bit, save to a4, a4 = a0 | a1
+
+	/* ORI instruction */
+	ori		a5, a0, 0b101010 // a0 | 0b101010, save to a5, a5 = a0 | 0b101010
+
+	/* AND instruction */
+	and		a6, a0, a1 // a0 & a1, save to a6, a6 = a0 & a1
+
+	/* ANDI instruction */
+	andi	a7, a0, 0b101010 // a0 & 0b101010, save to a7, a7 = a0 & 0b101010
+
+	addi	x1, s2, 0 //restore lr
+	ret
+
 calc_instruction:
 	addi	s2, x1, 0 //save lr
 
@@ -55,6 +102,8 @@ assemble_study:
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
 	jal		x1, calc_instruction
+	jal		logical_instruction
+	jal		load_and_store_instruction
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
