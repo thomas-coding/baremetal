@@ -17,6 +17,7 @@ _start:
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
+	jal		exception_test
 	jal		x1, assemble_study
 	jal		csr_study
 	jal		jump_to_m_mode_test
@@ -26,6 +27,29 @@ _start:
 	addi	x0, x0, 0 //nop
 	j		.
 
+_vector:
+	addi	x0, x0, 0 //nop
+	addi	x0, x0, 0 //nop
+	csrr	t0, mcause
+	csrr	t1, mtval
+	csrr	t2, mepc
+
+	addi	t3, t2, 4
+	csrw	mepc, t3
+
+	mret
+
+exception_test:
+	addi	s2, x1, 0 //save lr
+
+	/* Set exception enter address, mode is base */
+	la		t0, _vector
+	csrw	mtvec, t0
+
+	mret //test for cause exception
+
+	addi	x1, s2, 0 //restore lr
+	ret
 
 jump_to_m_mode_test:
 	addi	s2, x1, 0 //save lr
