@@ -17,6 +17,7 @@ qemu_option+=" -machine virt -bios none -monitor null -semihosting"
 qemu_option+=" --semihosting-config enable=on,target=native"
 qemu_option+=" -kernel ${shell_folder}/output/target.elf"
 qemu_option+=" -serial stdio -nographic"
+#qemu_option+=" -smp 2"
 
 # Run qemu
 #qemu-system-riscv64 ${qemu_option}

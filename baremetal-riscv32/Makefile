@@ -9,7 +9,7 @@ ELF = ${Target}.elf
 # Compile command and flag
 #CC = riscv64-unknown-linux-gnu-gcc
 CC = riscv32-unknown-elf-gcc
-CFLAG = -Wall -Werror -ggdb -nostdlib -march=rv32i
+CFLAG = -Wall -Werror -ggdb -nostdlib
 ASFLAGS = -ggdb
 
 # Linker command and flag
