@@ -21,7 +21,7 @@ _start:
 #	jal		x1, assemble_study
 #	jal		csr_study
 #	jal		jump_to_m_mode_test
-#	jal		jump_to_s_mode_test
+	jal		jump_to_s_mode_test
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
 
@@ -32,6 +32,7 @@ _start:
 	addi	x0, x0, 0 //nop
 	j		.
 
+.align 2
 _vector:
 	addi	x0, x0, 0 //nop
 	addi	x0, x0, 0 //nop
