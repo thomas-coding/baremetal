@@ -9,6 +9,7 @@
 #include <mpu.h>
 #include <nvic.h>
 #include <systick.h>
+#include <thomas_test_device.h>
 
 int global_variable_data = 0x11223344;
 int global_variable_bss1;
@@ -34,6 +35,7 @@ void platform_init(void)
 	mpu_init();
 	nvic_init();
 	systick_init();
+	thomas_test_device_init();
 }
 
 int main(void)
