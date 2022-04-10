@@ -13,10 +13,9 @@ else
     echo "not use gdb, just run"
 fi
 
-qemu_option+=" -machine thomas-m3 -monitor null -semihosting"
-qemu_option+=" --semihosting-config enable=on,target=native"
+qemu_option+=" -machine thomas-m3"
 qemu_option+=" -kernel ${shell_folder}/output/target.elf"
-qemu_option+=" -serial stdio -nographic"
+qemu_option+=" -serial stdio"
 qemu_option+=" -d guest_errors"
 
 # Run qemu
