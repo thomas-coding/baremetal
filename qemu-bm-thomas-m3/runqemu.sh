@@ -17,6 +17,7 @@ qemu_option+=" -machine thomas-m3 -monitor null -semihosting"
 qemu_option+=" --semihosting-config enable=on,target=native"
 qemu_option+=" -kernel ${shell_folder}/output/target.elf"
 qemu_option+=" -serial stdio -nographic"
+qemu_option+=" -d guest_errors"
 
 # Run qemu
 #qemu-system-arm ${qemu_option}
