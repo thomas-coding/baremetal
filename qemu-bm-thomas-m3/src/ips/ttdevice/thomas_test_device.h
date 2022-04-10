@@ -11,6 +11,8 @@ typedef struct TT_DEVICE_t {
     volatile unsigned int REG0;
     volatile unsigned int REG1;
     volatile unsigned int REG2;
+    volatile unsigned int REG3;
+    volatile unsigned int REG4;
 } TT_DEVICE_t;
 
 #define TT_DEVICE_ADDR ((TT_DEVICE_t *)(0x50000000))
