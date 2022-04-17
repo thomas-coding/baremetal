@@ -15,7 +15,7 @@ typedef struct UART_t {
 	volatile unsigned int BAUDDIV;
 } UART_t;
 
-#define UART0_ADDR ((UART_t *)(0x40004000))
+#define UART0_ADDR ((UART_t *)(0x40000000))
 
 #define UART_CTRL_TX_EN (1 << 0)
 #define UART_CTRL_RX_EN (1 << 1)

@@ -53,28 +53,33 @@ void mpu_config(void)
 {
 	/* Region 0 */
 	MPU->RNR = 0;
-	MPU->RBAR = 0x00000000;
+	MPU->RBAR = 0x20000000;
 	MPU->RASR = 0x03030027; /* XN=0, AP=011(all allow), tex=0, s=0, c=1, b=1, srd=0, size=0x10011(1m), enable=1 */
 
 	/* Region 1 */
 	MPU->RNR = 1;
-	MPU->RBAR = 0x00100000;
+	MPU->RBAR = 0x20100000;
 	MPU->RASR = 0x03030027; /* XN=0, AP=011(all allow), tex=0, s=0, c=1, b=1, srd=0, size=0x10011(1m), enable=1 */
 
 	/* Region 2 */
 	MPU->RNR = 2;
-	MPU->RBAR = 0x00200000;
+	MPU->RBAR = 0x20200000;
 	MPU->RASR = 0x02030027; /* XN=0, AP=010(privileged rw, un-priv ro), tex=0, s=0, c=1, b=1, srd=0, size=0x10011(1m), enable=1 */
 
 	/* Region 3 */
 	MPU->RNR = 3;
-	MPU->RBAR = 0x00300000;
+	MPU->RBAR = 0x20300000;
 	MPU->RASR = 0x03030027; /* XN=0, AP=011(all allow), tex=0, s=0, c=1, b=1, srd=0, size=0x10011(1m), enable=1 */
 
 	/* Region 4 */
 	MPU->RNR = 4;
 	MPU->RBAR = 0x40000000;
 	MPU->RASR = 0x1300003b; /* XN=1, AP=011(all allow), tex=0, s=0, c=0, b=0, srd=0, size=0x11101(1g), enable=1 */
+
+	/* Region 0 4m flash*/
+	MPU->RNR = 5;
+	MPU->RBAR = 0x10000000;
+	MPU->RASR = 0x0303002b; /* XN=0, AP=011(all allow), tex=0, s=0, c=1, b=1, srd=0, size=5b10101(4m), enable=1 */
 
 	/* Enable MPU */
 	asm volatile("dmb");
@@ -91,11 +96,11 @@ void test_unprivileged_acess(void)
 	asm volatile("isb");
 
 	/* Region4 allow uart access at unprivileged mode*/
-	bm_printf_value_u32("0x350000: ", *(volatile unsigned int *)(0x350000));
+	bm_printf_value_u32("0x20350000: ", *(volatile unsigned int *)(0x20350000));
 
 	/* If address is 0x26000(in region 2), it will not allowed write, it will cause hard fault */
-	*(volatile unsigned int *)(0x360000) = 0x12345678;
-	bm_printf_value_u32("0x360000: ", *(volatile unsigned int *)(0x360000));
+	*(volatile unsigned int *)(0x20360000) = 0x12345678;
+	bm_printf_value_u32("0x20360000: ", *(volatile unsigned int *)(0x20360000));
 
 	asm volatile("svc	#100");
 }

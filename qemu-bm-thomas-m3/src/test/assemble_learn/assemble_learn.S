@@ -45,12 +45,12 @@ Move_Data:
 
 	/* Move between register and memory */
 	bl		Clear_r0_2_r6				/* For test, first clear r0-r6 */
-	movt	r0, #0x20					/* Set r0 to test memory address 0x200000 */
+	ldr		r0, =0x20000000				/* Set r0 to test memory address 0x20000000 */
 	mov		r1, #0xff					/* Set r1 to 0xff */
-	str		r1, [r0]					/* Store r1 value to address memory 0x200000(r0) , use gdb command 'x/16xw 0x200000' to check*/
-	ldr		r2, [r0]					/* Load memory 0x200000 content to r2 */
+	str		r1, [r0]					/* Store r1 value to address memory 0x20000000(r0) , use gdb command 'x/16xw 0x20000000' to check*/
+	ldr		r2, [r0]					/* Load memory 0x20000000 content to r2 */
 	ldr		r1, =0x12345678				/* Set r1 = 0x12345678 */
-	str		r1, [r0, #0x4]				/* Set 0x200000 + 0x4 = r1 */
+	str		r1, [r0, #0x4]				/* Set 0x20000000 + 0x4 = r1 */
 
 	mov		r1, r0						/* Set r1 to memory base 0x200000 */
 	ldr		r2, =0x11

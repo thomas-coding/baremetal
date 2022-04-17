@@ -5,13 +5,16 @@
  */
 
 /* Embedded RAM Configuration */
-__RAM_BASE = 0x0;
+__FLASH_BASE = 0x10000000;
+__FLASH_SIZE = 0x400000;
+__RAM_BASE = 0x20000000;
 __RAM_SIZE = 0x400000;
 
 __STACK_SIZE = 0x00010000;
 
 MEMORY
 {
+	FLASH (rx) : ORIGIN = __FLASH_BASE, LENGTH = __FLASH_SIZE
 	RAM (rwx) : ORIGIN = __RAM_BASE, LENGTH = __RAM_SIZE
 }
 
@@ -23,12 +26,12 @@ SECTIONS
 	{
 		*(.text*)
 		*(.rodata*)
-	} > RAM
+	} > FLASH
 
 	.data :
 	{
 		*(.data*)
-	} > RAM
+	} > RAM AT > FLASH
 
 	.bss :
 	{
