@@ -21,6 +21,13 @@ https://github.com/thomas-coding/baremetal.git 中baremetal-m33 部分，<br />
 Done - 2022/1/22<br />
 完成启动代码，完成如下模块：串口，mmu，cache，gic，generic timer，完成异常处理，模式切换usr-svc，完成smc两个世界切换验证<br />
 
+<br />
+5、Qemu thomas-m3 machine + Freerots thomas-m3 demo<br />
+Done - 2022/4/17<br />
+学习Qemu arm cortex-m3 相关代码，包括cpu、memory、中断、device等，完成qemu thomas-m3 machine 搭建，在这个machine上跑Freertos（新建THOMAS_M3_QEMU demo工程）<br />
+相关代码提交：<br />
+https://github.com/thomas-coding/FreeRTOS<br />
+https://github.com/thomas-coding/qemu<br />
 
 <br />
 Docs:<br />
