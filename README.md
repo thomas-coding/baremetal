@@ -1,5 +1,5 @@
 # baremetal
-目的是学习 arm cpu 硬件相关知识以及qemu相关知识，计划如下：<br />
+目的是学习 arm cpu 硬件相关知识以及qemu相关知识，记录如下：<br />
 <br />
 1、写一个 Cortex-M3（armv7m） 的 baremetal code, 硬件平台为 ARM MPS2 AN385 开发版（QEMU虚拟）<br />
 Done - 2021/12/26<br />
@@ -28,6 +28,18 @@ Done - 2022/4/17<br />
 相关代码提交：<br />
 https://github.com/thomas-coding/FreeRTOS<br />
 https://github.com/thomas-coding/qemu<br />
+
+<br />
+6、Qemu thomas-m33 machine, 跑 TFM + Freerots<br />
+Done - 2022/4/24<br />
+6.1 Qemu 搭建 thomas-m33 machine，只包含基本的m33 core（带sau）<br />
+6.2 TFM 中针对这个qemu board 新建platform <br />
+6.3 FreeRTOS 中针对这个qemu board 新建 Demo <br />
+TFM 和 freerots 可以在这个qemu board上正常跑起来，后续还要加下MPC、PPC，tfm中加个sp，更完整些 <br />
+相关代码提交：<br />
+https://github.com/thomas-coding/FreeRTOS<br />
+https://github.com/thomas-coding/qemu<br />
+https://github.com/thomas-coding/trusted-firmware-m<br />
 
 <br />
 Docs:<br />
