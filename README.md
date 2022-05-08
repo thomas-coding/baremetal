@@ -42,5 +42,17 @@ https://github.com/thomas-coding/qemu<br />
 https://github.com/thomas-coding/trusted-firmware-m<br />
 
 <br />
+7、Qemu thomas-a15 machine, 基于arm cortext-a15 跑 baremetal <br />
+ongoing - 2022/5/8<br />
+6.1 Qemu 搭建 thomas-a15 machine，只包含基本的arm cortext-a15 core 和 arm pl011 uart<br />
+6.2 Baremetal 新建工程qemu-bm-thomas-a15，跑在qemu machine thomas-a15 上 <br />
+需要把gicv3中断控制器加进去，另外需要实现安全非安全两个世界完整的代码 <br />
+
+相关代码提交：<br />
+https://github.com/thomas-coding/baremetal.git 中 qemu-bm-thomas-a15 部分，<br />
+https://github.com/thomas-coding/qemu<br />
+
+
+<br />
 Docs:<br />
     https://baremetal.readthedocs.io/en/latest/
