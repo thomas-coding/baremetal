@@ -13,10 +13,10 @@ else
     echo "not use gdb, just run"
 fi
 
-qemu_option+=" -machine virt,secure=on -cpu cortex-a15"
+qemu_option+=" -machine virt,secure=on,gic-version=3 -cpu cortex-a15"
 qemu_option+=" -bios ${shell_folder}/output/target.bin"
 qemu_option+=" -nographic -m 128 "
 #qemu_option+="  -smp 2"
 
 # run qemu
-qemu-system-arm ${qemu_option}
+gdb --args qemu-system-arm ${qemu_option}

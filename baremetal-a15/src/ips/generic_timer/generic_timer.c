@@ -6,7 +6,7 @@
 
 #include <generic_timer.h>
 #include <console.h>
-#include <gicv2.h>
+#include <interrupt.h>
 
 void gtimer_set_cntp_freq(uint32_t freq)
 {
@@ -243,6 +243,6 @@ void generic_timer_init(void)
 	gtimer_set_cntp_freq(PERIPH_CLK);
 
 	//generic_timer_polling_test();
-	//generic_timer_interrupt_test();
+	generic_timer_interrupt_test();
 
 }
