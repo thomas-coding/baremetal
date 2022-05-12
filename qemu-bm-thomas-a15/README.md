@@ -30,3 +30,15 @@ The baremetal project build steps in Linux environment:
 4. Run qemu and gdb(create two new termial)
 	./runqemu.sh  or ./runqemu.sh --gdb
 	./rungdb.sh
+
+5. Memory map (qemu/hw/arm/thomas_a15.c)
+	/* Thomas-a15 memory map
+	*
+	*  0x00000000 .. 0x01ffffff : Flash(32M)
+	*  0x10000000 .. 0x11ffffff : SRAM(32M)
+	*  0x20000000 .. 0x27ffffff : DDR(128M)
+	*  0x40000000 .. 0x40000fff : UART(4K)
+	*  0x50000000 .. 0x50000fff : Thomas Test Device(4K)
+	*  0x60000000 .. 0x6000ffff : GIC Distributor(64K)
+	*  0x61000000 .. 0x6001ffff : GIC Redistributor(128K)
+	*/

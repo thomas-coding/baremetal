@@ -6,7 +6,7 @@
 
 #include <generic_timer.h>
 #include <console.h>
-#include <gicv2.h>
+#include <interrupt.h>
 
 void gtimer_set_cntp_freq(uint32_t freq)
 {

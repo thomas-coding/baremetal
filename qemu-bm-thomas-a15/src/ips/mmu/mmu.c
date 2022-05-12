@@ -17,7 +17,7 @@ __attribute__ ((section (".ARM_TLB"))) unsigned int mmu_ttb[SIZE_4K] = {0};
 #define SRAM_SIZE		0x02000000 /* 32M */
 
 #define PERIPH_BASE		0x40000000
-#define PERIPH_SIZE		0x20000000 /* 512M */
+#define PERIPH_SIZE		0x40000000 /* 1G */
 
 #define DDR_BASE		0x20000000
 #define DDR_SIZE		0x08000000 /* 128M */

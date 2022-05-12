@@ -7,18 +7,22 @@
 #include <console.h>
 #include <mmu.h>
 #include <cache.h>
-#include <gicv2.h>
+//#include <gicv2.h>
+#include <interrupt.h>
 #include <misc.h>
 #include <generic_timer.h>
+#include <thomas_test_device.h>
 
 void platform_init(void)
 {
 	console_init();
 	mmu_init();
 	cache_init();
-	gicv2_init();
+	//gicv2_init();
+	gic_init();
 	misc_init();
 	generic_timer_init();
+	thomas_test_device_init();
 }
 
 void svc_function_8(void)
