@@ -246,6 +246,25 @@ Reset_Handler:
 #	ldr		r3, =0x88888888 /* Test data abort, write value to 0x88888888 */
 #	str		r0, [r3]
 
+	/*
+	 * SMP initialization
+	 */
+
+	/* Read CPU ID register */
+	mrc	p15, 0, r0, c0, c0, 5
+	/* Mask off, leaving the CPU ID field */
+	ands	r0, r0, #0x3
+	beq	primary_cpu_init
+	bne	secondary_cpus_init
+
+/* ------------------------------------------------------------ */
+/* Initialization for PRIMARY CPU */
+
+	.global primary_cpu_init
+	.type primary_cpu_init, "function"
+primary_cpu_init:
+
+
 	/* Copy .data from flash to sram */
 	/* Read copy table, copy form r1 to r2, length is r3 */
 	ldr		r0, = __copy_table_start__
@@ -331,3 +350,11 @@ Reset_Handler:
 	bl		main
 	b		.
 
+/* ------------------------------------------------------------ */
+/* Initialization for SECONDARY CPUs */
+
+	.global secondary_cpus_init
+	.type secondary_cpus_init, "function"
+secondary_cpus_init:
+	wfi
+	b		.
