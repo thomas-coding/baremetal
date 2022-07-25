@@ -12,6 +12,7 @@
 #include <misc.h>
 #include <generic_timer.h>
 #include <thomas_test_device.h>
+#include <smp.h>
 
 void platform_init(void)
 {
@@ -23,6 +24,7 @@ void platform_init(void)
 	misc_init();
 	generic_timer_init();
 	thomas_test_device_init();
+	smp_init();
 }
 
 void svc_function_8(void)
@@ -81,6 +83,7 @@ int main(void)
 	data_and_bss_test();
 	bm_printf("enter main\n");
 	//smc_test();
-	usr_mode_test();
+	//usr_mode_test();
+	smp_test();
 	return 0;
 }

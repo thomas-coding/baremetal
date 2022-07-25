@@ -5,14 +5,24 @@
  */
 
 #include <pl011.h>
+#include <interrupt.h>
 
 #define U32_MAX_DIGIT_BITS 12  /* 8 char for number, 2 for '0x' and 1 for '\n', last 0 for end */
 #define U8_MAX_DIGIT_BITS 6  /* 2 char for number, 2 for '0x' and 1 for '\n', last 0 for end */
 static const char HEX_TABLE[] = {'0', '1', '2', '3', '4', '5', '6', '7',
 								'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+int print_core_id = 1;
 
 void bm_printf(char *s)
 {
+	int cpu_id = 0;
+	cpu_id = cpu_id_get();
+
+	if(print_core_id == 1) {
+		uart_putc('[');
+		uart_putc(HEX_TABLE[cpu_id]);
+		uart_putc(']');
+	}
 	while (*s) {
 		uart_putc(*s);
 		s++;
@@ -67,14 +77,22 @@ static void bm_printf_hex_u8(unsigned char value)
 
 void bm_printf_value_u32(char *s, unsigned int value)
 {
+	//interrupts_disable();
 	bm_printf(s);
+	print_core_id = 0;
 	bm_printf_hex_u32(value);
+	print_core_id = 1;
+	//interrupts_enable();
 }
 
 void bm_printf_value_u8(char *s, unsigned char value)
 {
+	//interrupts_disable();
 	bm_printf(s);
+	print_core_id = 0;
 	bm_printf_hex_u8(value);
+	print_core_id = 1;
+	//interrupts_enable();
 }
 
 void console_init(void)

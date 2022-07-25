@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <gicv3_platform_def.h>
+#include <gicv3-gicc.h>
 
 #define INTR_ENTRY_NUM	151
 

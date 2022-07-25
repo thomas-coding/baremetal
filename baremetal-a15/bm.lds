@@ -75,49 +75,49 @@ SECTIONS
 
 	.abort_stack (NOLOAD):
 	{
-		. = ALIGN(8);
+		. = ALIGN(64);
 		Image$$ABORT_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;
 		Image$$ABORT_STACK$$ZI$$Limit = .;
 	} > RAM
 
 	.undef_stack (NOLOAD):
 	{
-		. = ALIGN(8);
+		. = ALIGN(64);
 		Image$$UNDEF_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;
 		Image$$UNDEF_STACK$$ZI$$Limit = .;
 	} > RAM
 
 	.irq_stack (NOLOAD):
 	{
-		. = ALIGN(8);
+		. = ALIGN(64);
 		Image$$IRQ_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;
 		Image$$IRQ_STACK$$ZI$$Limit = .;
 	} > RAM
 
 	.fiq_stack (NOLOAD):
 	{
-		. = ALIGN(8);
+		. = ALIGN(64);
 		Image$$FIQ_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;
 		Image$$FIQ_STACK$$ZI$$Limit = .;
 	} > RAM
 
 	.smc_stack (NOLOAD):
 	{
-		. = ALIGN(8);
+		. = ALIGN(64);
 		Image$$SMC_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;
 		Image$$SMC_STACK$$ZI$$Limit = .;
 	} > RAM
 
 	.user_stack (NOLOAD):
 	{
-		. = ALIGN(8);
+		. = ALIGN(64);
 		Image$$USER_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;
 		Image$$USER_STACK$$ZI$$Limit = .;
 	} > RAM
 
@@ -126,7 +126,7 @@ SECTIONS
 		. = ORIGIN(RAM) + LENGTH(RAM) -  0x00001000;
 		. = ALIGN(8);
 		Image$$SVC_STACK$$ZI$$Base = .;
-		. += 0x00001000;
+		. = . +  2 * 4096;;
 		Image$$SVC_STACK$$ZI$$Limit = .;
 	} > RAM
 }
