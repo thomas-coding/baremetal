@@ -11,13 +11,13 @@ TARGET_ARCH	= -mcpu=$(CPU)
 
 # Compile command and flag
 CC = arm-none-eabi-gcc
-CFLAG = -Wall -g
+CFLAG = -Wall -g -fstack-usage
 ASFLAGS = -g
 
 # Linker command and flag
 LINKER = arm-none-eabi-gcc
 #LDFLAGS	= -nostdlib -e 0x0 -Ttext=0x0 -mcpu=cortex-m3
-LDFLAGS	= -nostdlib -mcpu=cortex-a15 -T bm.lds
+LDFLAGS	= -nostdlib -mcpu=cortex-a15 -T bm.lds -Wl,--print-memory-usage
 
 DUMP = arm-none-eabi-objdump
 OBJCOPY = arm-none-eabi-objcopy
