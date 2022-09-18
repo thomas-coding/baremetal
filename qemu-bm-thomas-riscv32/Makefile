@@ -7,22 +7,14 @@ Target = target
 ELF = ${Target}.elf
 
 # Compile command and flag
-#CC = riscv64-unknown-linux-gnu-gcc
 CC = riscv32-unknown-elf-gcc
-#CFLAG = -Wall -Werror -ggdb -nostdlib
-CFLAG = -Wall -Werror -ggdb -nostartfiles
+CFLAG = -Wall -Werror -ggdb
 ASFLAGS = -ggdb
 
 # Linker command and flag
-#LINKER = riscv64-unknown-linux-gnu-ld
-#LINKER = riscv32-unknown-elf-ld
-#LDFLAGS	= -nostdlib -e 0x0 -Ttext=0x0 -mcpu=cortex-m3
-#LDFLAGS	= -nostdlib -mcpu=cortex-m3 -T bm.lds
-#LDFLAGS	= -nostdlib -T bm.lds
 LINKER = riscv32-unknown-elf-gcc
 LDFLAGS	= -nostartfiles -T bm.lds
-#DUMP = riscv64-unknown-linux-gnu-objdump
-#OBJCOPY = riscv64-unknown-linux-gnu-objcopy
+
 DUMP = riscv32-unknown-elf-objdump
 OBJCOPY = riscv32-unknown-elf-objcopy
 
