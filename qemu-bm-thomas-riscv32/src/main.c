@@ -4,30 +4,16 @@
  * SPDX-License-Identifier: MIT
  */
 
-#include <console.h>
+#include "common.h"
 
-unsigned int golbal_variable_initialized1 = 0x88;
-unsigned int golbal_variable_initialized2 = 0x77;
-unsigned int golbal_variable_not_init;
-void data_and_bss_test()
+void sys_init(void)
 {
-	golbal_variable_initialized1++;
-	golbal_variable_initialized2--;
-	bm_printf_value_u32("golbal_variable_not_init before:",golbal_variable_not_init);
-	golbal_variable_not_init = 0x99;
-	bm_printf_value_u32("golbal_variable_initialized1:",golbal_variable_initialized1);
-	bm_printf_value_u32("golbal_variable_initialized2:",golbal_variable_initialized2);
-	bm_printf_value_u32("golbal_variable_not_init after:",golbal_variable_not_init);
-}
-
-void platform_init(void)
-{
-	console_init();
+    console_init();
+    vs_printf("%s\n", __DATE__);
 }
 
 int main(void)
 {
-	platform_init();
-	data_and_bss_test();
-	return 0;
+    sys_init();
+    return 0;
 }

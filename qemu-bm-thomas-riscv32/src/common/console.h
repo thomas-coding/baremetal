@@ -1,15 +1,32 @@
 /*
- * Copyright (c) 2021-2031, Jinping Wu. All rights reserved.
+ * Header for the functions support console printf
  *
- * SPDX-License-Identifier: MIT
+ * Author: Kang Zhigang <Zhigang.Kang@verisilicon.com>
+ *
+ * Copyright (C) 2021 VeriSilicon Microelectronics (Shanghai) Co., Ltd.
+ *
  */
 
-#ifndef CONSOLE_H
-#define CONSOLE_H
+#ifndef __CONSOLE_H__
+#define __CONSOLE_H__
 
-void console_init(void);
-void bm_printf(char *s);
-void bm_printf_value_u32(char *s, unsigned int value);
-void bm_printf_value_u8(char *s, unsigned char value);
+#include <stdbool.h>
+#include <stdint.h>
+#include <stddef.h>
+/*
+ * Use the following parameter passing structure to make console_printf
+ * re-entrant.
+ */
+struct params_s {
+	uint32_t len;
+	uint64_t num_integer;
+	uint64_t num_decimal;
+	char pad_character;
+	uint8_t do_padding;
+	uint8_t left_flag;
+	uint8_t hex_upper;		/* Hexadecimal data output to upper case */
+};
 
-#endif
+void console_printf(const char *ctrl1, ...);
+
+#endif /* __CONSOLE_H__ */
