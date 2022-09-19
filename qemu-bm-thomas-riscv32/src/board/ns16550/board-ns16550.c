@@ -10,7 +10,7 @@
 
 struct ns16550 uart[UART_IP_NUM] = {
 	{
-		.ip_owner = NS_IP_OWNER_SNPS,
+		.ip_owner = NS_IP_OWNER_VSI,
 		.base = (void *)UART0_BASE,
 		.clk_freq = UART_CLK_FREQ,
 		.reg_shift = 0,
