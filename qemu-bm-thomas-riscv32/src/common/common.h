@@ -79,4 +79,8 @@
 #define	delay(x)			do {} while (0)
 #endif
 
+typedef void (*pfunc)(void);
+
+void vs_verify_loop(void);
+
 #endif /* __COMMON_H__ */
