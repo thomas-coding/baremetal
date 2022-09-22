@@ -14,6 +14,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
+#include <addr_map.h>
 
 /* indicating how many UART in this SoC */
 #define UART_IP_NUM		1
@@ -26,9 +27,6 @@
 /* indicating how many registers for each UART */
 #define UART_REG_NUM		12
 
-
-/* indicating the base address of UART */
-#define UART0_BASE		0x10013000
 
 /*
  * indicating the interrupt number of each UART

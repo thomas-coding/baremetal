@@ -5,17 +5,20 @@
  */
 
 #include "common.h"
+#include "devices.h"
+#include "t-timer.h"
 
 extern void tiny_uart_console(void);
 
 void *verify_callback[][2] = {
 	{ (void *)tiny_uart_console, "Tiny console" },
+	{ (void *)timer_test, "riscv generic timer test" },
 	{ 0, 0 },
 };
 
 void sys_init(void)
 {
-    console_init();
+    devices_init();
     vs_printf("%s\n", __DATE__);
 }
 

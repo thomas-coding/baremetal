@@ -10,6 +10,9 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
+#include "riscv_asm.h"
+#include "riscv_cpu.h"
+
 /* Is there a UART? */
 #define UART_IS_OK
 #ifdef UART_IS_OK
@@ -69,10 +72,13 @@
 #define vs_printf(fmt, arg ...)		do {} while (0)
 #endif
 
+/* Is there a TIMER? */
+#define TIMER_IS_OK
+#include "timer.h"
 #ifdef TIMER_IS_OK
-#define	udelay(x)			gtimer_udelay(x)
-#define	mdelay(x)			gtimer_mdelay(x)
-#define	delay(x)			gtimer_sdelay(x)
+#define	udelay(x)			timer_udelay(x)
+#define	mdelay(x)			timer_mdelay(x)
+#define	delay(x)			timer_sdelay(x)
 #else
 #define	udelay(x)			do {} while (0)
 #define	mdelay(x)			do {} while (0)

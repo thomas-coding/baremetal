@@ -48,6 +48,10 @@ _enter:
     j 1b
 1:
 
+    /* Set up a trap vector */
+    la t0, m_trap_vector
+    csrw mtvec, t0
+
     /* At this point we can enter the C runtime's startup file.  The arguments
      * to this function are designed to match those provided to the SEE, just
      * so we don't have to write another ABI. */
