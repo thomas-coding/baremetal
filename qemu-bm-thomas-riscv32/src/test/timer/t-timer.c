@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: MIT
  *
  * Core-Local Interruptor (CLINT) driver
- *  
+ *
  */
 
 #include "common.h"
 #include "t-timer.h"
 
-int count = 0;
 void timer_test(void)
 {
     uint64_t tick = get_ticks();
+
     vs_printf("get tick:0x%llx\n", tick);
 
     vs_printf("before delay 3s\n");

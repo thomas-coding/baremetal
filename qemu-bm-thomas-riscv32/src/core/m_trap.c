@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  *
  * Core-Local Interruptor (CLINT) driver
- *  
+ *
  */
 
 #include "common.h"
@@ -23,11 +23,11 @@ struct trap_regs *trap_handler(struct trap_regs *regs)
 
     mcause &= ~(1UL << (__riscv_xlen - 1));
     switch (mcause) {
-        case IRQ_M_TIMER:
-            timer_interrupt_handler();
-            break;
-        default:
-            break;
+    case IRQ_M_TIMER:
+        timer_interrupt_handler();
+        break;
+    default:
+        break;
     };
 
     return regs;

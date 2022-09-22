@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  *
  * Core-Local Interruptor (CLINT) driver
- *  
+ *
  */
 
 #include "common.h"
@@ -20,6 +20,7 @@ struct aclint_mtimer_data board_timer = {
 int64_t get_ticks(void)
 {
     uint32_t lo, hi, tmp;
+
     __asm__ __volatile__("1:\n"
                  "rdtimeh %0\n"
                  "rdtime %1\n"
@@ -42,7 +43,6 @@ void timer_udelay(uint32_t us)
     /* Busy loop until desired timer value delta reached */
     while ((get_ticks() - start_val) < delta)
         asm volatile ("" : : : "memory");
-
 }
 
 void timer_mdelay(uint32_t ms)
@@ -57,14 +57,12 @@ void timer_sdelay(uint32_t s)
 
 void timer_start(uint64_t next_tick)
 {
-
     mtimer_start(next_tick);
     csr_set(CSR_MIE, MIP_MTIP);
 }
 
 void timer_start_ms(uint32_t ms)
 {
-
     uint64_t next_tick;
 
     next_tick = get_ticks() + ((uint64_t)board_timer.mtime_freq * (uint64_t)ms) / 1000;
@@ -77,7 +75,6 @@ void timer_stop(void)
     mtimer_stop();
     csr_clear(CSR_MIP, MIP_STIP);
     csr_clear(CSR_MIE, MIP_MTIP);
-
 }
 
 void timer_interrupt_handler(void)

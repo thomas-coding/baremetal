@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  *
  * Core-Local Interruptor (CLINT) driver
- *  
+ *
  */
 
 #include "common.h"
@@ -57,11 +57,9 @@ void mtimer_start(uint64_t next_count)
 
 int aclint_mtimer_cold_init(struct aclint_mtimer_data *mt)
 {
-
     gp_mtimer.mtime_addr = mt->mtime_addr;
     gp_mtimer.mtimecmp_addr = mt->mtimecmp_addr;
     gp_mtimer.time_rd = mtimer_time_rd32;
     gp_mtimer.time_wr = mtimer_time_wr32;
-
     return 0;
 }
