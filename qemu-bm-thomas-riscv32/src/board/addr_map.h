@@ -10,5 +10,6 @@
 
 #define UART0_BASE              0x10013000
 #define ACLINT_MTIME_BASE       0x02004000
+#define PLIC_BASE               0x0c000000
 
 #endif /* __ADDR_MAP_H__ */

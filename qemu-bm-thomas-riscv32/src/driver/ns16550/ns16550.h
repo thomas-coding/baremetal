@@ -35,23 +35,23 @@
 #define UART_SRR		0x088
 
 /* UART_LCR bit define */
-#define UART_LCR_WORD_LEN5	(0<<0)
-#define UART_LCR_WORD_LEN6	(1<<0)
-#define UART_LCR_WORD_LEN7	(2<<0)
-#define UART_LCR_WORD_LEN8	(3<<0)
-#define UART_LCR_STOP_1BIT	(0<<2)
-#define UART_LCR_STOP_2BIT	(1<<2)
-#define UART_LCR_PE		(1<<3)
-#define UART_LCR_EPS		(1<<4)
-#define UART_LCR_SP		(1<<5)
-#define UART_LCR_BC		(1<<6)
-#define UART_LCR_DLAB		(1<<7)
+#define UART_LCR_WORD_LEN5	(0 << 0)
+#define UART_LCR_WORD_LEN6	(1 << 0)
+#define UART_LCR_WORD_LEN7	(2 << 0)
+#define UART_LCR_WORD_LEN8	(3 << 0)
+#define UART_LCR_STOP_1BIT	(0 << 2)
+#define UART_LCR_STOP_2BIT	(1 << 2)
+#define UART_LCR_PE		(1 << 3)
+#define UART_LCR_EPS		(1 << 4)
+#define UART_LCR_SP		(1 << 5)
+#define UART_LCR_BC		(1 << 6)
+#define UART_LCR_DLAB		(1 << 7)
 
 /* UART_IER bit define */
-#define UART_IER_ERDI		(1<<0)
-#define UART_IER_ETI		(1<<1)
-#define UART_IER_ERLSI		(1<<2)
-#define UART_IER_EMSI		(1<<3)
+#define UART_IER_ERDI		(1 << 0)
+#define UART_IER_ETI		(1 << 1)
+#define UART_IER_ERLSI		(1 << 2)
+#define UART_IER_EMSI		(1 << 3)
 
 /* UART interrupt ID */
 #define UART_INTR_ID_RLSI	0x06
@@ -112,7 +112,7 @@ struct ns16550 {
 	uint8_t reg_shift;
 	uint32_t time_out;
 	uint8_t en_irq_mode;
-	uint32_t irq_num;
+	int irq_num;
 	struct ns16550_priv priv_data;
 };
 

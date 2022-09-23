@@ -7,6 +7,7 @@
  *
  */
 #include "board-ns16550.h"
+#include "interrupt.h"
 
 struct ns16550 uart[UART_IP_NUM] = {
 	{
@@ -52,6 +53,10 @@ const struct ns16550_reg_def ns16550_reg_def_table[UART_REG_NUM] = {
 void console_init(void)
 {
 	ns16550_uart_init(&uart[CONSOLE_UART_NUM], &ns16550_config_def);
+
+	if (ns16550_config_def.intr_enable)
+		request_irq(uart[CONSOLE_UART_NUM].irq_num,
+			    uart_irq_handler, &uart[CONSOLE_UART_NUM]);
 }
 
 char console_getc(void)
@@ -82,7 +87,7 @@ void console_puts(const char *s)
 	ns16550_uart_puts(&uart[CONSOLE_UART_NUM], s);
 }
 
-void uart_irq_handler(uint32_t id, void *dev)
+void uart_irq_handler(int id, void *dev)
 {
 	ns16550_isr_handle((struct ns16550 *)dev);
 }

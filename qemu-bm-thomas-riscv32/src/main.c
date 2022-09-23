@@ -7,12 +7,14 @@
 #include "common.h"
 #include "devices.h"
 #include "t-timer.h"
+#include "t-interrupt.h"
 
 extern void tiny_uart_console(void);
 
 void *verify_callback[][2] = {
 	{ (void *)tiny_uart_console, "Tiny console" },
 	{ (void *)timer_test, "riscv generic timer test" },
+	{ (void *)interrupt_test, "riscv external interrupt test" },
 	{ 0, 0 },
 };
 

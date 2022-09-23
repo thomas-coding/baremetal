@@ -9,6 +9,7 @@
 
 #include "common.h"
 #include "m_trap.h"
+#include "interrupt.h"
 
 void __attribute__((weak)) timer_interrupt_handler(void)
 {
@@ -25,6 +26,9 @@ struct trap_regs *trap_handler(struct trap_regs *regs)
     switch (mcause) {
     case IRQ_M_TIMER:
         timer_interrupt_handler();
+        break;
+    case IRQ_M_EXT:
+        external_interrupt_handler();
         break;
     default:
         break;
