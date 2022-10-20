@@ -61,5 +61,15 @@ ongoing - 2022/7/30<br />
 https://github.com/thomas-coding/FreeRTOS<br />
 
 <br />
+9、Qemu thomas-riscv32 machine,  跑 baremetal/freertos <br />
+ongoing - 2022/9/30<br />
+9.1 Baremetal 跑riscv基本start 代码，clint，plinc 中断相关代码 <br />
+9.2 FreeRTOS 中针对这个qemu board 新建 Demo, task可以正常调度运行 <br />
+
+相关代码提交：<br />
+https://github.com/thomas-coding/FreeRTOS<br />
+
+
+<br />
 Docs:<br />
     https://baremetal.readthedocs.io/en/latest/
