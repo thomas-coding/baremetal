@@ -1,0 +1,4 @@
+# ignore obj and output
+obj
+output
+build
