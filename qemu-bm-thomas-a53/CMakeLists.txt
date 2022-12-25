@@ -18,6 +18,14 @@ set(SRC_LIST
     ${CMAKE_HOME_DIRECTORY}/src/core/startup.S
     ${CMAKE_HOME_DIRECTORY}/src/core/v8_aarch64.S
     ${CMAKE_HOME_DIRECTORY}/src/main.c
+    ${CMAKE_HOME_DIRECTORY}/src/common/common.c
+    ${CMAKE_HOME_DIRECTORY}/src/common/console.c
+    ${CMAKE_HOME_DIRECTORY}/src/common/kermit.c
+    ${CMAKE_HOME_DIRECTORY}/src/common/tiny_command.c
+    ${CMAKE_HOME_DIRECTORY}/src/common/tiny_console.c
+    ${CMAKE_HOME_DIRECTORY}/src/common/devices.c
+    ${CMAKE_HOME_DIRECTORY}/src/drivers/ns16550/ns16550.c
+    ${CMAKE_HOME_DIRECTORY}/src/board/ns16550/board-ns16550.c
     )
 
 # Target
@@ -29,6 +37,10 @@ target_link_options(${TARGET}.elf PRIVATE -T ${CMAKE_HOME_DIRECTORY}/bm.lds
 target_include_directories(${TARGET}.elf PUBLIC
     .
     ./src/core
+    ./src/common
+    ./src/drivers/ns16550
+    ./src/board
+    ./src/board/ns16550
     )
 
 target_sources(${TARGET}.elf

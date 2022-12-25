@@ -44,6 +44,6 @@ start64:
     sub x0, x0, x19, lsl #12
     mov sp, x0
 
-	b main
+	bl main
 
 	b .
